@@ -7,7 +7,6 @@ const NAV_ITEMS = [
   { href: 'rankings.html', label: 'National Teams', icon: '🚩', page: 'rankings' },
   { href: 'everyone.html', label: "Everyone's Teams", icon: '👥', page: 'everyone' },
   { href: 'table.html', label: 'World Cup Table', icon: '📊', page: 'table' },
-  { href: 'teamchallenge.html', label: 'Team Challenge', icon: '🏅', page: 'teamchallenge' },
 ];
 
 const KNOCKOUT_STAGE_LABELS = {
