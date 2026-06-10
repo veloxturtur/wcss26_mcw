@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>National Teams — Geens World Cup Sweepstake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="leaderboard.html" class="brand">
+        <span class="brand-icon">🏆</span>
+        <span>GEENS WORLD CUP SWEEPSTAKE</span>
+      </a>
+      <nav id="main-nav" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-header page-header-minimal">
+      <h1>NATIONAL TEAMS</h1>
+      <p class="sync-status" id="rankings-updated" aria-live="polite"></p>
+    </header>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>Total Points</th>
+            <th>Played</th>
+            <th>W-D-L</th>
+            <th>GD</th>
+            <th>Group</th>
+          </tr>
+        </thead>
+        <tbody id="rankings-body"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script src="fixtures.js"></script>
+  <script src="data.js"></script>
+  <script src="store.js"></script>
+  <script src="api-sync.js"></script>
+  <script src="common.js"></script>
+  <script src="rankings.js"></script>
+</body>
+</html>

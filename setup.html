@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup — World Cup Sweepstake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="leaderboard.html" class="brand">
+        <span class="brand-icon">🏆</span>
+        <span>WORLD CUP SWEEPSTAKE</span>
+      </a>
+      <nav id="main-nav" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-header page-header-minimal">
+      <h1>SETUP EVERYONE'S TEAMS</h1>
+    </header>
+
+    <div id="setup-players" class="setup-list"></div>
+
+    <div class="setup-actions">
+      <button type="button" class="btn-secondary" id="add-player">+ Add player</button>
+      <button type="button" class="btn-save" id="lock-setup">LOCK SWEEPSTAKE &amp; START</button>
+    </div>
+  </main>
+
+  <script src="fixtures.js"></script>
+  <script src="data.js"></script>
+  <script src="store.js"></script>
+  <script src="common.js"></script>
+  <script src="setup.js"></script>
+</body>
+</html>

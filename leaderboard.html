@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — Geens World Cup Sweepstake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="leaderboard.html" class="brand">
+        <span class="brand-icon">🏆</span>
+        <span>GEENS WORLD CUP SWEEPSTAKE</span>
+      </a>
+      <nav id="main-nav" aria-label="Main navigation"></nav>
+    </div>
+  </header>
+
+  <main>
+    <header class="page-header page-header-row">
+      <div>
+        <h1>LEADERBOARD</h1>
+        <p class="sync-status" id="sync-status" aria-live="polite"></p>
+      </div>
+    </header>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Move</th>
+            <th>Player</th>
+            <th>Teams</th>
+            <th>GP</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body"></tbody>
+      </table>
+    </div>
+    <p class="footer-note">GP = total matches played by this player&apos;s teams. Click a name for full stats. Arrows update after each score sync.</p>
+
+    <section class="legend-box" aria-labelledby="scoring-legend">
+      <h3 id="scoring-legend">Scoring System</h3>
+      <div class="legend-grid">
+        <div>
+          <h4>Group Stage</h4>
+          <ul>
+            <li>Win — 3 pts</li>
+            <li>Draw — 1 pt</li>
+            <li>Loss — 0 pts</li>
+            <li>1st in Group — +3 pts bonus</li>
+            <li>2nd in Group — +1 pt bonus</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Knockout Stage</h4>
+          <ul>
+            <li>Round of 32 — +2 pts</li>
+            <li>Round of 16 — +4 pts</li>
+            <li>Quarter Finals — +6 pts</li>
+            <li>Semi Finals — +9 pts</li>
+            <li>Runner Up — +12 pts</li>
+            <li>Winner — +15 pts</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="fixtures.js"></script>
+  <script src="data.js"></script>
+  <script src="store.js"></script>
+  <script src="api-sync.js"></script>
+  <script src="common.js"></script>
+  <script src="leaderboard.js"></script>
+</body>
+</html>
