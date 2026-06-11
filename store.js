@@ -5,21 +5,21 @@ const DATA_VERSION = 4;
 // Use FULL COUNTRY NAMES only (e.g. "England", "Netherlands").
 // 3-letter codes like "ENG"/"NED" are rejected.
 const HARD_CODED_PLAYER_INPUT = [
- { name: 'Paula', teams: ['x', 'X', 'x'] },
- { name: 'Hien', teams: ['x', 'Côte d\'Ivoire', 'x'] },
- { name: 'Murdoch', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Lien', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Colin', teams: ['x', 'x', 'x'] },
- { name: 'Angus', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Teresa', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Jess', teams: ['x', 'x', 'x'] },
- { name: 'Harry', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Javier', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Sharanja', teams: ['x', 'x', 'x'] },
- { name: 'Farah', teams: ['x', 'x', 'x'] },
- { name: 'Elisa', teams: ['x', 'x', 'x', 'x'] },
- { name: 'Christian', teams: ['x', 'x', 'x'] },
- { name: 'Kevin', teams: ['x', 'x', 'x'] },
+ { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
+ { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
+ { name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] },
+ { name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] },
+ { name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
+ { name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] },
+ { name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
+ { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
+ { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
+ { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
+ { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
+ { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
+ { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
+ { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
+ { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
 ];
 
 // Internal normalized version used by the app: { name, teamCodes: string[] }.
