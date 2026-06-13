@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Score Input - World Cup Sweepstake</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Manual Score Input</h1>
+    <p>Enter match scores here to update the leaderboard. Match centre, table, and bracket still use live API data.</p>
+  </header>
+
+  <nav id="main-nav"></nav>
+
+  <main>
+    <div id="score-input-container">
+      <div id="date-selector">
+        <label for="match-date">Select Match Date:</label>
+        <select id="match-date"></select>
+      </div>
+      
+      <div id="matches-form"></div>
+      
+      <div class="form-actions">
+        <button type="button" id="save-scores">Save Scores</button>
+        <button type="button" id="reset-scores">Reset to API Data</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="fixtures.js"></script>
+  <script src="store.js"></script>
+  <script src="common.js"></script>
+  <script src="scores-manual.js"></script>
+</body>
+</html>
