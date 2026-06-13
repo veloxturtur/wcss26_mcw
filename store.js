@@ -12,34 +12,35 @@ const DATA_VERSION = 4;
 
 const HARD_CODED_PLAYER_INPUT = [
 
- { name: 'Evi', teams: ['Portugal', 'Sweden', 'Uzbekistan'] },
+ { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
 
- { name: 'Jasper', teams: ['Mexico', 'Côte d\'Ivoire', 'Saudi Arabia'] },
+ { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
 
- { name: 'Jurgen', teams: ['Colombia', 'Panama', 'Bosnia and Herzegovina'] },
+ { name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] },
 
- { name: 'Lien', teams: ['Germany', 'Canada', 'Iraq', 'Switzerland'] },
+ { name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] },
 
- { name: 'Noah', teams: ['Belgium', 'Algeria', 'Qatar'] },
+ { name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
 
- { name: 'Oma', teams: ['Croatia', 'Australia', 'Ghana', 'Japan'] },
+ { name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] },
 
- { name: 'Opa', teams: ['Argentina', 'Scotland', 'DR Congo', 'USA'] },
+ { name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
 
- { name: 'Oscar', teams: ['Brazil', 'Egypt', 'New Zealand'] },
+ { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
 
- { name: 'Peet', teams: ['Jordan', 'Paraguay', 'Senegal', 'Iran'] },
+ { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
 
- { name: 'Pie', teams: ['France', 'Czechia', 'Tunisia', 'Uruguay'] },
+ { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
 
- { name: 'Sara', teams: ['Netherlands', 'Austria', 'South Africa'] },
+ { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
 
- { name: 'Stan', teams: ['England', 'Ecuador', 'Haiti'] },
+ { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
 
- { name: 'Stella', teams: ['Morocco', 'South Korea', 'Cabo Verde', 'Türkiye'] },
+ { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
 
- { name: 'Teo', teams: ['Spain', 'Norway', 'Curaçao'] },
+ { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
 
+ { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
 ];
 
 
