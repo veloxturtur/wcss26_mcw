@@ -402,6 +402,8 @@ async function syncWorldCupData() {
     state.lastSyncAt = new Date().toISOString();
     state.syncSource = source;
     state.lastSyncCount = count;
+    // Preserve manual scores during sync
+    if (!state.manualScores) state.manualScores = {};
     updateLeaderboardSnapshots(state);
     saveState(state);
     document.dispatchEvent(
