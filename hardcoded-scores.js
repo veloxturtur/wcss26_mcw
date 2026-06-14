@@ -102,4 +102,4 @@ const HARDCODED_MATCH_SCORES = {
 };
 
 // Set this to true to use hardcoded scores, false to use API data
-const USE_HARDCODED_SCORES = false;
+const USE_HARDCODED_SCORES = true;
