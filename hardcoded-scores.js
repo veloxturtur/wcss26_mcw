@@ -37,7 +37,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-D-2-1': { homeScore: null, awayScore: null }, // PAR vs AUS
 
   // Group E
-  'g-E-0-0': { homeScore: null, awayScore: null }, // GER vs CUW
+  'g-E-0-0': { homeScore: 7, awayScore: 1 }, // GER vs CUW
   'g-E-0-1': { homeScore: null, awayScore: null }, // CIV vs ECU
   'g-E-1-0': { homeScore: null, awayScore: null }, // GER vs CIV
   'g-E-1-1': { homeScore: null, awayScore: null }, // ECU vs CUW
