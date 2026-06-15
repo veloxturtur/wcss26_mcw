@@ -61,7 +61,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-G-2-1': { homeScore: null, awayScore: null }, // NZL vs BEL
 
   // Group H
-  'g-H-0-0': { homeScore: null, awayScore: null }, // ESP vs CPV
+  'g-H-0-0': { homeScore: 0, awayScore: 0 }, // ESP vs CPV
   'g-H-0-1': { homeScore: null, awayScore: null }, // KSA vs URU
   'g-H-1-0': { homeScore: null, awayScore: null }, // ESP vs KSA
   'g-H-1-1': { homeScore: null, awayScore: null }, // URU vs CPV
