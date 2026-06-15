@@ -53,7 +53,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-F-2-1': { homeScore: null, awayScore: null }, // TUN vs NED
 
   // Group G
-  'g-G-0-0': { homeScore: null, awayScore: null }, // BEL vs EGY
+  'g-G-0-0': { homeScore: 1, awayScore: 1 }, // BEL vs EGY
   'g-G-0-1': { homeScore: null, awayScore: null }, // IRN vs NZL
   'g-G-1-0': { homeScore: null, awayScore: null }, // BEL vs IRN
   'g-G-1-1': { homeScore: null, awayScore: null }, // NZL vs EGY
