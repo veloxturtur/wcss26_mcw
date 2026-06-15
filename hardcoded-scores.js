@@ -45,7 +45,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-E-2-1': { homeScore: null, awayScore: null }, // ECU vs GER
 
   // Group F
-  'g-F-0-0': { homeScore: null, awayScore: null }, // NED vs JPN
+  'g-F-0-0': { homeScore: 2, awayScore: 2 }, // NED vs JPN
   'g-F-0-1': { homeScore: null, awayScore: null }, // SWE vs TUN
   'g-F-1-0': { homeScore: null, awayScore: null }, // NED vs SWE
   'g-F-1-1': { homeScore: null, awayScore: null }, // TUN vs JPN
