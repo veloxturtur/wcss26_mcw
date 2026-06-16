@@ -54,7 +54,7 @@ const HARDCODED_MATCH_SCORES = {
 
   // Group G
   'g-G-0-0': { homeScore: 1, awayScore: 1 }, // BEL vs EGY
-  'g-G-0-1': { homeScore: null, awayScore: null }, // IRN vs NZL
+  'g-G-0-1': { homeScore: 2, awayScore: 2 }, // IRN vs NZL
   'g-G-1-0': { homeScore: null, awayScore: null }, // BEL vs IRN
   'g-G-1-1': { homeScore: null, awayScore: null }, // NZL vs EGY
   'g-G-2-0': { homeScore: null, awayScore: null }, // EGY vs IRN
@@ -62,7 +62,7 @@ const HARDCODED_MATCH_SCORES = {
 
   // Group H
   'g-H-0-0': { homeScore: 0, awayScore: 0 }, // ESP vs CPV
-  'g-H-0-1': { homeScore: null, awayScore: null }, // KSA vs URU
+  'g-H-0-1': { homeScore: 1, awayScore: 1 }, // KSA vs URU
   'g-H-1-0': { homeScore: null, awayScore: null }, // ESP vs KSA
   'g-H-1-1': { homeScore: null, awayScore: null }, // URU vs CPV
   'g-H-2-0': { homeScore: null, awayScore: null }, // CPV vs KSA
