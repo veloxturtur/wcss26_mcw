@@ -69,16 +69,16 @@ const HARDCODED_MATCH_SCORES = {
   'g-H-2-1': { homeScore: null, awayScore: null }, // URU vs ESP
 
   // Group I
-  'g-I-0-0': { homeScore: null, awayScore: null }, // FRA vs SEN
-  'g-I-0-1': { homeScore: null, awayScore: null }, // IRQ vs NOR
+  'g-I-0-0': { homeScore: 3, awayScore: 1 }, // FRA vs SEN
+  'g-I-0-1': { homeScore: 1, awayScore: 4 }, // IRQ vs NOR
   'g-I-1-0': { homeScore: null, awayScore: null }, // FRA vs IRQ
   'g-I-1-1': { homeScore: null, awayScore: null }, // NOR vs SEN
   'g-I-2-0': { homeScore: null, awayScore: null }, // NOR vs FRA
   'g-I-2-1': { homeScore: null, awayScore: null }, // SEN vs IRQ
 
   // Group J
-  'g-J-0-0': { homeScore: null, awayScore: null }, // ARG vs ALG
-  'g-J-0-1': { homeScore: null, awayScore: null }, // AUT vs JOR
+  'g-J-0-0': { homeScore: 3, awayScore: 0 }, // ARG vs ALG
+  'g-J-0-1': { homeScore: 3, awayScore: 1 }, // AUT vs JOR
   'g-J-1-0': { homeScore: null, awayScore: null }, // ARG vs AUT
   'g-J-1-1': { homeScore: null, awayScore: null }, // JOR vs ALG
   'g-J-2-0': { homeScore: null, awayScore: null }, // ALG vs AUT
