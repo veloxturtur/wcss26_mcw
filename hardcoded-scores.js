@@ -85,7 +85,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-J-2-1': { homeScore: null, awayScore: null }, // JOR vs ARG
 
   // Group K
-  'g-K-0-0': { homeScore: null, awayScore: null }, // POR vs COD
+  'g-K-0-0': { homeScore: 1, awayScore: 1 }, // POR vs COD
   'g-K-0-1': { homeScore: null, awayScore: null }, // UZB vs COL
   'g-K-1-0': { homeScore: null, awayScore: null }, // POR vs UZB
   'g-K-1-1': { homeScore: null, awayScore: null }, // COL vs COD
