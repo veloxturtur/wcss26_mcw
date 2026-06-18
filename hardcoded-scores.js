@@ -8,7 +8,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-A-0-0': { homeScore: 2, awayScore: 0 }, // MEX vs RSA
   'g-A-0-1': { homeScore: 2, awayScore: 1 }, // KOR vs CZE
   'g-A-1-0': { homeScore: null, awayScore: null }, // MEX vs KOR
-  'g-A-1-1': { homeScore: null, awayScore: null }, // RSA vs CZE
+  'g-A-1-1': { homeScore: 1, awayScore: 1 }, // RSA vs CZE
   'g-A-2-0': { homeScore: null, awayScore: null }, // CZE vs MEX
   'g-A-2-1': { homeScore: null, awayScore: null }, // RSA vs KOR
 
@@ -89,16 +89,16 @@ const HARDCODED_MATCH_SCORES = {
   'g-K-0-1': { homeScore: null, awayScore: null }, // UZB vs COD
   'g-K-1-0': { homeScore: null, awayScore: null }, // POR vs UZB
   'g-K-1-1': { homeScore: null, awayScore: null }, // COL vs COD
-  'g-K-2-0': { homeScore: null, awayScore: null }, // COD vs POR
-  'g-K-2-1': { homeScore: null, awayScore: null }, // COL vs UZB
+  'g-K-2-0': { homeScore: 1, awayScore: 1 }, // COD vs POR
+  'g-K-2-1': { homeScore: 3, awayScore: 1 }, // COL vs UZB
 
   // Group L (ENG, GHA, PAN, CRO)
   'g-L-0-0': { homeScore: null, awayScore: null }, // ENG vs GHA
   'g-L-0-1': { homeScore: null, awayScore: null }, // PAN vs CRO
   'g-L-1-0': { homeScore: null, awayScore: null }, // ENG vs PAN
   'g-L-1-1': { homeScore: null, awayScore: null }, // GHA vs CRO
-  'g-L-2-0': { homeScore: null, awayScore: null }, // CRO vs ENG
-  'g-L-2-1': { homeScore: null, awayScore: null }, // GHA vs PAN
+  'g-L-2-0': { homeScore: 2, awayScore: 4 }, // CRO vs ENG
+  'g-L-2-1': { homeScore: 1, awayScore: 0 }, // GHA vs PAN
 };
 
 // Set this to true to use hardcoded scores, false to use API data
