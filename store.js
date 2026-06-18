@@ -335,14 +335,15 @@ function getPlayerByTeamCode(state, code) {
 
 function matchPlayed(m) {
   // Check if match has hardcoded scores
- if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
-      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      // FIX: Only overwrite if the hardcoded scores are NOT null
-      if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
-        homeScore = hardcodedScore.homeScore;
-        awayScore = hardcodedScore.awayScore;
-      }
+  if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+    const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
+    if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
+      return true;
     }
+  }
+  
+  return m.homeScore !== null && m.awayScore !== null && m.homeScore !== '' && m.awayScore !== '';
+}
   
   return m.homeScore !== null && m.awayScore !== null && m.homeScore !== '' && m.awayScore !== '';
 
@@ -361,31 +362,18 @@ function groupMatchPoints(homeScore, awayScore) {
 
 
 function buildGroupStandings(matches) {
-
   const groups = {};
-
   const groupMatches = matches.filter((m) => m.stage === 'group' && matchPlayed(m));
 
-
-
   for (const m of groupMatches) {
-
     if (!groups[m.group]) groups[m.group] = {};
-
     const register = (code) => {
-
       if (!code) return;
-
       if (!groups[m.group][code]) {
-
         groups[m.group][code] = { code, pts: 0, gd: 0, gf: 0, played: 0, w: 0, d: 0, l: 0 };
-
       }
-
     };
-
     register(m.home);
-
     register(m.away);
 
     // Use hardcoded scores if available and enabled
@@ -394,87 +382,54 @@ function buildGroupStandings(matches) {
     
     if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
       const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      if (hardcodedScore) {
+      // FIX: Only overwrite if the hardcoded scores are NOT null
+      if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
         homeScore = hardcodedScore.homeScore;
         awayScore = hardcodedScore.awayScore;
       }
     }
 
     const { home: hp, away: ap } = groupMatchPoints(homeScore, awayScore);
-
     const h = groups[m.group][m.home];
-
     const a = groups[m.group][m.away];
-
     h.pts += hp;
-
     h.gf += homeScore;
-
     h.gd += homeScore - awayScore;
-
     h.played += 1;
-
     a.pts += ap;
-
     a.gf += awayScore;
-
     a.gd += awayScore - homeScore;
-
     a.played += 1;
 
     if (hp === 3) {
-
       h.w += 1;
-
       a.l += 1;
-
     } else if (ap === 3) {
-
       a.w += 1;
-
       h.l += 1;
-
     } else {
-
       h.d += 1;
-
       a.d += 1;
-
     }
-
   }
 
-
-
   const bonuses = {};
-
   const tables = {};
-
   for (const group of Object.keys(groups)) {
-
     const teams = Object.values(groups[group]).sort((x, y) => {
-
       if (y.pts !== x.pts) return y.pts - x.pts;
-
       if (y.gd !== x.gd) return y.gd - x.gd;
-
       return y.gf - x.gf;
-
     });
-
     tables[group] = teams;
-
     // Only apply group bonuses when all group matches are played (each team plays 3 matches)
     const allMatchesPlayed = teams.every(t => t.played === 3);
     if (allMatchesPlayed) {
       if (teams[0]) bonuses[teams[0].code] = (bonuses[teams[0].code] || 0) + 3;
       if (teams[1]) bonuses[teams[1].code] = (bonuses[teams[1].code] || 0) + 1;
     }
-
   }
-
   return { bonuses, tables };
-
 }
 
 
@@ -568,29 +523,17 @@ function knockoutPointsForStage(stage) {
 }
 
 
-
 function calculateTeamPoints(state) {
-
   const { matches, knockoutTeams } = state;
-
   const points = {};
 
-
-
   const init = (code) => {
-
     if (code) points[code] = 0;
-
   };
 
-
-
   for (const m of matches) {
-
     if (m.stage !== 'group' || !matchPlayed(m)) continue;
-
     init(m.home);
-
     init(m.away);
 
     // Use hardcoded scores if available and enabled
@@ -599,50 +542,32 @@ function calculateTeamPoints(state) {
     
     if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
       const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      if (hardcodedScore) {
+      // FIX: Only overwrite if the hardcoded scores are NOT null
+      if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
         homeScore = hardcodedScore.homeScore;
         awayScore = hardcodedScore.awayScore;
       }
     }
 
     const { home, away } = groupMatchPoints(homeScore, awayScore);
-
     points[m.home] += home;
-
     points[m.away] += away;
-
   }
-
-
 
   const { bonuses } = buildGroupStandings(matches);
-
   for (const [code, bonus] of Object.entries(bonuses)) {
-
     init(code);
-
     points[code] = (points[code] || 0) + bonus;
-
   }
-
-
 
   const reach = getKnockoutReach(matches, knockoutTeams);
-
   for (const [code, stage] of Object.entries(reach)) {
-
     if (!code) continue;
-
     init(code);
-
     points[code] = (points[code] || 0) + knockoutPointsForStage(stage);
-
   }
 
-
-
   return points;
-
 }
 
 
