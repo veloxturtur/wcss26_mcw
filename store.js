@@ -12,36 +12,21 @@ const DATA_VERSION = 4;
 
 const HARD_CODED_PLAYER_INPUT = [
 
- { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
-
- { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
-
- { name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] },
-
- { name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] },
-
- { name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
-
- { name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] },
-
- { name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
-
- { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
-
- { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
-
- { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
-
- { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
-
- { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
-
- { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
-
- { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
-
- { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
-];
+{ name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
+{ name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
+{ name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] }, 
+{ name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] }, 
+{ name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
+{ name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] }, 
+{ name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
+{ name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] }, 
+{ name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
+{ name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] }, 
+{ name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] }, 
+{ name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
+{ name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] }, 
+{ name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
+{ name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] }, ];
 
 
 
@@ -49,11 +34,11 @@ const HARD_CODED_PLAYER_INPUT = [
 
 function normalizeTeamNameInput(s) {
 
-  if (s == null) return '';
+  if (s == null) return '';
 
-  // Lowercase + remove diacritics (e.g., "Türkiye" -> "turkiye")
+  // Lowercase + remove diacritics (e.g., "Türkiye" -> "turkiye")
 
-  return String(s).normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+  return String(s).normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
 
 }
 
@@ -63,13 +48,13 @@ function normalizeTeamNameInput(s) {
 
 const FULL_NAME_TO_TEAM_CODE = (() => {
 
-  const idx = {};
+  const idx = {};
 
-  if (typeof ALL_TEAMS === 'undefined') return idx;
+  if (typeof ALL_TEAMS === 'undefined') return idx;
 
-  for (const t of ALL_TEAMS) idx[normalizeTeamNameInput(t.name)] = t.code;
+  for (const t of ALL_TEAMS) idx[normalizeTeamNameInput(t.name)] = t.code;
 
-  return idx;
+  return idx;
 
 })();
 
@@ -77,9 +62,9 @@ const FULL_NAME_TO_TEAM_CODE = (() => {
 
 function fullTeamNameToCode(fullName) {
 
-  if (!fullName) return null;
+  if (!fullName) return null;
 
-  return FULL_NAME_TO_TEAM_CODE[normalizeTeamNameInput(fullName)] || null;
+  return FULL_NAME_TO_TEAM_CODE[normalizeTeamNameInput(fullName)] || null;
 
 }
 
@@ -87,47 +72,47 @@ function fullTeamNameToCode(fullName) {
 
 const HARD_CODED_PLAYERS = HARD_CODED_PLAYER_INPUT.map((p, idx) => {
 
-  const name = (p && p.name) ? String(p.name).trim() : `Player ${idx + 1}`;
+  const name = (p && p.name) ? String(p.name).trim() : `Player ${idx + 1}`;
 
-  const rawTeams = Array.isArray(p?.teams) ? p.teams : [];
+  const rawTeams = Array.isArray(p?.teams) ? p.teams : [];
 
-  const codes = rawTeams
+  const codes = rawTeams
 
-    .map((t) => {
+    .map((t) => {
 
-      if (!t) return null;
+      if (!t) return null;
 
-      const s = String(t).trim();
+      const s = String(t).trim();
 
-      // First: try to match by full country name.
+      // First: try to match by full country name.
 
-      const byName = fullTeamNameToCode(s);
+      const byName = fullTeamNameToCode(s);
 
-      if (byName) return byName;
+      if (byName) return byName;
 
 
 
-      // If it looks like a 3-letter code, reject it.
+      // If it looks like a 3-letter code, reject it.
 
-      if (/^[A-Za-z]{3}$/.test(s)) {
+      if (/^[A-Za-z]{3}$/.test(s)) {
 
-        console.warn(
+        console.warn(
 
-          `Team "${s}" for player "${name}" was not found as a full country name. ` +
+          `Team "${s}" for player "${name}" was not found as a full country name. ` +
 
-            `3-letter codes are not allowed.`
+            `3-letter codes are not allowed.`
 
-        );
+        );
 
-      }
+      }
 
-      return null;
+      return null;
 
-    })
+    })
 
-    .filter(Boolean);
+    .filter(Boolean);
 
-  return { name, teamCodes: codes };
+  return { name, teamCodes: codes };
 
 });
 
@@ -135,17 +120,17 @@ const HARD_CODED_PLAYERS = HARD_CODED_PLAYER_INPUT.map((p, idx) => {
 
 const KNOCKOUT_BONUS = {
 
-  r32: 2,
+  r32: 2,
 
-  r16: 4,
+  r16: 4,
 
-  qf: 6,
+  qf: 6,
 
-  sf: 9,
+  sf: 9,
 
-  final: 15,
+  final: 15,
 
-  runnerUp: 12,
+  runnerUp: 12,
 
 };
 
@@ -157,35 +142,35 @@ const STAGE_ORDER = ['group', 'r32', 'r16', 'qf', 'sf', 'final'];
 
 function defaultState() {
 
-  return {
+  return {
 
-    setupComplete: true,
+    setupComplete: true,
 
-    picksLocked: true,
+    picksLocked: true,
 
-    picksLockedAt: null,
+    picksLockedAt: null,
 
-    players: HARD_CODED_PLAYERS,
+    players: HARD_CODED_PLAYERS,
 
-    matches: generateDefaultMatches(),
-    
-    manualScores: {},
+    matches: generateDefaultMatches(),
+    
+    manualScores: {},
 
-    knockoutTeams: {},
+    knockoutTeams: {},
 
-    lastSyncAt: null,
+    lastSyncAt: null,
 
-    syncSource: null,
+    syncSource: null,
 
-    lastSyncCount: 0,
+    lastSyncCount: 0,
 
-    lastLeaderboard: [],
+    lastLeaderboard: [],
 
-    rankMovement: {},
+    rankMovement: {},
 
-    dataVersion: DATA_VERSION,
+    dataVersion: DATA_VERSION,
 
-  };
+  };
 
 }
 
@@ -193,7 +178,7 @@ function defaultState() {
 
 function arePicksLocked(state) {
 
-  return !!(state?.picksLocked || state?.setupComplete);
+  return !!(state?.picksLocked || state?.setupComplete);
 
 }
 
@@ -201,95 +186,95 @@ function arePicksLocked(state) {
 
 function loadState() {
 
-  try {
+  try {
 
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY);
 
-    if (raw) {
+    if (raw) {
 
-      const parsed = JSON.parse(raw);
+      const parsed = JSON.parse(raw);
 
-      const needsRegeneration = parsed.dataVersion !== DATA_VERSION;
+      const needsRegeneration = parsed.dataVersion !== DATA_VERSION;
 
-      return {
+      return {
 
-        // Team picks are fixed in code, so always treat setup as locked.
+        // Team picks are fixed in code, so always treat setup as locked.
 
-        setupComplete: true,
+        setupComplete: true,
 
-        picksLocked: true,
+        picksLocked: true,
 
-        picksLockedAt: parsed.picksLockedAt ?? null,
+        picksLockedAt: parsed.picksLockedAt ?? null,
 
-        players: HARD_CODED_PLAYERS,
+        players: HARD_CODED_PLAYERS,
 
-        matches: needsRegeneration ? generateDefaultMatches() : (parsed.matches?.length ? parsed.matches : generateDefaultMatches()),
-        
-        manualScores: needsRegeneration ? {} : (parsed.manualScores ?? {}),
+        matches: needsRegeneration ? generateDefaultMatches() : (parsed.matches?.length ? parsed.matches : generateDefaultMatches()),
+        
+        manualScores: needsRegeneration ? {} : (parsed.manualScores ?? {}),
 
-        knockoutTeams: needsRegeneration ? {} : (parsed.knockoutTeams ?? {}),
+        knockoutTeams: needsRegeneration ? {} : (parsed.knockoutTeams ?? {}),
 
-        lastSyncAt: needsRegeneration ? null : (parsed.lastSyncAt ?? null),
+        lastSyncAt: needsRegeneration ? null : (parsed.lastSyncAt ?? null),
 
-        syncSource: needsRegeneration ? null : (parsed.syncSource ?? null),
+        syncSource: needsRegeneration ? null : (parsed.syncSource ?? null),
 
-        lastSyncCount: needsRegeneration ? 0 : (parsed.lastSyncCount ?? 0),
+        lastSyncCount: needsRegeneration ? 0 : (parsed.lastSyncCount ?? 0),
 
-        lastLeaderboard: needsRegeneration ? [] : (Array.isArray(parsed.lastLeaderboard) ? parsed.lastLeaderboard : []),
+        lastLeaderboard: needsRegeneration ? [] : (Array.isArray(parsed.lastLeaderboard) ? parsed.lastLeaderboard : []),
 
-        rankMovement: needsRegeneration ? {} : (parsed.rankMovement ?? {}),
+        rankMovement: needsRegeneration ? {} : (parsed.rankMovement ?? {}),
 
-        dataVersion: DATA_VERSION,
+        dataVersion: DATA_VERSION,
 
-      };
+      };
 
-    }
+    }
 
-    const legacy = localStorage.getItem('wcSweepstake_v1');
+    const legacy = localStorage.getItem('wcSweepstake_v1');
 
-    if (legacy) {
+    if (legacy) {
 
-      const old = JSON.parse(legacy);
+      const old = JSON.parse(legacy);
 
-      return {
+      return {
 
-        setupComplete: true,
+        setupComplete: true,
 
-        picksLocked: true,
+        picksLocked: true,
 
-        picksLockedAt: old?.picksLockedAt ?? null,
+        picksLockedAt: old?.picksLockedAt ?? null,
 
-        players: HARD_CODED_PLAYERS,
+        players: HARD_CODED_PLAYERS,
 
-        matches: generateDefaultMatches(),
+        matches: generateDefaultMatches(),
 
-        knockoutTeams: {},
-        
-        manualScores: {},
+        knockoutTeams: {},
+        
+        manualScores: {},
 
-        lastSyncAt: null,
+        lastSyncAt: null,
 
-        syncSource: null,
+        syncSource: null,
 
-        lastSyncCount: 0,
+        lastSyncCount: 0,
 
-        lastLeaderboard: [],
+        lastLeaderboard: [],
 
-        rankMovement: {},
+        rankMovement: {},
 
-        dataVersion: DATA_VERSION,
+        dataVersion: DATA_VERSION,
 
-      };
+      };
 
-    }
+    }
 
-  } catch {
+  } catch {
 
-    /* fall through */
+    /* fall through */
 
-  }
+  }
 
-  return defaultState();
+  return defaultState();
 
 }
 
@@ -297,9 +282,9 @@ function loadState() {
 
 function saveState(state) {
 
-  const { players, ...rest } = state;
+  const { players, ...rest } = state;
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(rest));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(rest));
 
 }
 
@@ -307,7 +292,7 @@ function saveState(state) {
 
 function getPlayers(state) {
 
-  return state.players || [];
+  return state.players || [];
 
 }
 
@@ -315,165 +300,170 @@ function getPlayers(state) {
 
 function getPlayerByTeamCode(state, code) {
 
-  const players = getPlayers(state);
+  const players = getPlayers(state);
 
-  for (const player of players) {
+  for (const player of players) {
 
-    if (player.teamCodes && player.teamCodes.includes(code)) {
+    if (player.teamCodes && player.teamCodes.includes(code)) {
 
-      return player.name;
+      return player.name;
 
-    }
+    }
 
-  }
+  }
 
-  return null;
+  return null;
 
 }
 
 
 
 function matchPlayed(m) {
-  // Check if match has hardcoded scores
- if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
-      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      // FIX: Only overwrite if the hardcoded scores are NOT null
-      if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
-        homeScore = hardcodedScore.homeScore;
-        awayScore = hardcodedScore.awayScore;
-      }
-    }
-  
-  return m.homeScore !== null && m.awayScore !== null && m.homeScore !== '' && m.awayScore !== '';
+  // Check if match has hardcoded scores
+  if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+    const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
+    if (hardcodedScore) {
+      const homeScore = hardcodedScore.homeScore;
+      const awayScore = hardcodedScore.awayScore;
+      // Only consider played if scores are actual numbers (not null)
+      if (homeScore !== null && awayScore !== null) {
+        return true;
+      }
+    }
+  }
+  
+  return m.homeScore !== null && m.awayScore !== null && m.homeScore !== '' && m.awayScore !== '';
 
 }
 
 
 
 function groupMatchPoints(homeScore, awayScore) {
-  // SAFETY NET: Ignore unplayed/null games completely
-  if (homeScore === null || awayScore === null) return { home: 0, away: 0 };
-  
-  if (homeScore > awayScore) return { home: 3, away: 0 };
-  if (homeScore < awayScore) return { home: 0, away: 3 };
-  return { home: 1, away: 1 };
+
+  if (homeScore > awayScore) return { home: 3, away: 0 };
+
+  if (homeScore < awayScore) return { home: 0, away: 3 };
+
+  return { home: 1, away: 1 };
+
 }
+
 
 
 function buildGroupStandings(matches) {
 
-  const groups = {};
+  const groups = {};
 
-  const groupMatches = matches.filter((m) => m.stage === 'group' && matchPlayed(m));
-
-
-
-  for (const m of groupMatches) {
-
-    if (!groups[m.group]) groups[m.group] = {};
-
-    const register = (code) => {
-
-      if (!code) return;
-
-      if (!groups[m.group][code]) {
-
-        groups[m.group][code] = { code, pts: 0, gd: 0, gf: 0, played: 0, w: 0, d: 0, l: 0 };
-
-      }
-
-    };
-
-    register(m.home);
-
-    register(m.away);
-
-    // Use hardcoded scores if available and enabled
-    let homeScore = m.homeScore;
-    let awayScore = m.awayScore;
-    
-    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
-      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      if (hardcodedScore) {
-        homeScore = hardcodedScore.homeScore;
-        awayScore = hardcodedScore.awayScore;
-      }
-    }
-
-    const { home: hp, away: ap } = groupMatchPoints(homeScore, awayScore);
-
-    const h = groups[m.group][m.home];
-
-    const a = groups[m.group][m.away];
-
-    h.pts += hp;
-
-    h.gf += homeScore;
-
-    h.gd += homeScore - awayScore;
-
-    h.played += 1;
-
-    a.pts += ap;
-
-    a.gf += awayScore;
-
-    a.gd += awayScore - homeScore;
-
-    a.played += 1;
-
-    if (hp === 3) {
-
-      h.w += 1;
-
-      a.l += 1;
-
-    } else if (ap === 3) {
-
-      a.w += 1;
-
-      h.l += 1;
-
-    } else {
-
-      h.d += 1;
-
-      a.d += 1;
-
-    }
-
-  }
+  const groupMatches = matches.filter((m) => m.stage === 'group' && matchPlayed(m));
 
 
 
-  const bonuses = {};
+  for (const m of groupMatches) {
 
-  const tables = {};
+    if (!groups[m.group]) groups[m.group] = {};
 
-  for (const group of Object.keys(groups)) {
+    const register = (code) => {
 
-    const teams = Object.values(groups[group]).sort((x, y) => {
+      if (!code) return;
 
-      if (y.pts !== x.pts) return y.pts - x.pts;
+      if (!groups[m.group][code]) {
 
-      if (y.gd !== x.gd) return y.gd - x.gd;
+        groups[m.group][code] = { code, pts: 0, gd: 0, gf: 0, played: 0, w: 0, d: 0, l: 0 };
 
-      return y.gf - x.gf;
+      }
 
-    });
+    };
 
-    tables[group] = teams;
+    register(m.home);
 
-    // Only apply group bonuses when all group matches are played (each team plays 3 matches)
-    const allMatchesPlayed = teams.every(t => t.played === 3);
-    if (allMatchesPlayed) {
-      if (teams[0]) bonuses[teams[0].code] = (bonuses[teams[0].code] || 0) + 3;
-      if (teams[1]) bonuses[teams[1].code] = (bonuses[teams[1].code] || 0) + 1;
-    }
+    register(m.away);
 
-  }
+    // Use hardcoded scores if available and enabled
+    let homeScore = m.homeScore;
+    let awayScore = m.awayScore;
+    
+    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
+      if (hardcodedScore) {
+        homeScore = hardcodedScore.homeScore;
+        awayScore = hardcodedScore.awayScore;
+      }
+    }
 
-  return { bonuses, tables };
+    const { home: hp, away: ap } = groupMatchPoints(homeScore, awayScore);
+
+    const h = groups[m.group][m.home];
+
+    const a = groups[m.group][m.away];
+
+    h.pts += hp;
+
+    h.gf += homeScore;
+
+    h.gd += homeScore - awayScore;
+
+    h.played += 1;
+
+    a.pts += ap;
+
+    a.gf += awayScore;
+
+    a.gd += awayScore - homeScore;
+
+    a.played += 1;
+
+    if (hp === 3) {
+
+      h.w += 1;
+
+      a.l += 1;
+
+    } else if (ap === 3) {
+
+      a.w += 1;
+
+      h.l += 1;
+
+    } else {
+
+      h.d += 1;
+
+      a.d += 1;
+
+    }
+
+  }
+
+
+
+  const bonuses = {};
+
+  const tables = {};
+
+  for (const group of Object.keys(groups)) {
+
+    const teams = Object.values(groups[group]).sort((x, y) => {
+
+      if (y.pts !== x.pts) return y.pts - x.pts;
+
+      if (y.gd !== x.gd) return y.gd - x.gd;
+
+      return y.gf - x.gf;
+
+    });
+
+    tables[group] = teams;
+
+    // Only apply group bonuses when all group matches are played (each team plays 3 matches)
+    const allMatchesPlayed = teams.every(t => t.played === 3);
+    if (allMatchesPlayed) {
+      if (teams[0]) bonuses[teams[0].code] = (bonuses[teams[0].code] || 0) + 3;
+      if (teams[1]) bonuses[teams[1].code] = (bonuses[teams[1].code] || 0) + 1;
+    }
+
+  }
+
+  return { bonuses, tables };
 
 }
 
@@ -481,53 +471,53 @@ function buildGroupStandings(matches) {
 
 function getKnockoutReach(matches, knockoutTeams) {
 
-  const reach = { ...knockoutTeams };
+  const reach = { ...knockoutTeams };
 
 
 
-  const knockoutMatches = matches
+  const knockoutMatches = matches
 
-    .filter((m) => m.stage !== 'group' && matchPlayed(m))
+    .filter((m) => m.stage !== 'group' && matchPlayed(m))
 
-    .sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
-
-
-
-  for (const m of knockoutMatches) {
-
-    const stage = m.stage;
-
-    if (m.home) reach[m.home] = maxStage(reach[m.home], stage);
-
-    if (m.away) reach[m.away] = maxStage(reach[m.away], stage);
+    .sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
 
 
 
-    if (m.homeScore === m.awayScore) continue;
+  for (const m of knockoutMatches) {
 
-    const winner = m.homeScore > m.awayScore ? m.home : m.away;
+    const stage = m.stage;
 
-    const loser = m.homeScore > m.awayScore ? m.away : m.home;
+    if (m.home) reach[m.home] = maxStage(reach[m.home], stage);
+
+    if (m.away) reach[m.away] = maxStage(reach[m.away], stage);
 
 
 
-    if (stage === 'final') {
+    if (m.homeScore === m.awayScore) continue;
 
-      reach[winner] = 'final';
+    const winner = m.homeScore > m.awayScore ? m.home : m.away;
 
-      reach[loser] = 'runnerUp';
+    const loser = m.homeScore > m.awayScore ? m.away : m.home;
 
-    } else {
 
-      const next = nextStage(stage);
 
-      if (next && winner) reach[winner] = maxStage(reach[winner], next);
+    if (stage === 'final') {
 
-    }
+      reach[winner] = 'final';
 
-  }
+      reach[loser] = 'runnerUp';
 
-  return reach;
+    } else {
+
+      const next = nextStage(stage);
+
+      if (next && winner) reach[winner] = maxStage(reach[winner], next);
+
+    }
+
+  }
+
+  return reach;
 
 }
 
@@ -535,13 +525,13 @@ function getKnockoutReach(matches, knockoutTeams) {
 
 function maxStage(a, b) {
 
-  if (!a) return b;
+  if (!a) return b;
 
-  if (!b) return a;
+  if (!b) return a;
 
-  const order = [...STAGE_ORDER, 'runnerUp'];
+  const order = [...STAGE_ORDER, 'runnerUp'];
 
-  return order.indexOf(a) >= order.indexOf(b) ? a : b;
+  return order.indexOf(a) >= order.indexOf(b) ? a : b;
 
 }
 
@@ -549,9 +539,9 @@ function maxStage(a, b) {
 
 function nextStage(stage) {
 
-  const i = STAGE_ORDER.indexOf(stage);
+  const i = STAGE_ORDER.indexOf(stage);
 
-  return i >= 0 && i < STAGE_ORDER.length - 1 ? STAGE_ORDER[i + 1] : null;
+  return i >= 0 && i < STAGE_ORDER.length - 1 ? STAGE_ORDER[i + 1] : null;
 
 }
 
@@ -559,11 +549,11 @@ function nextStage(stage) {
 
 function knockoutPointsForStage(stage) {
 
-  if (stage === 'runnerUp') return KNOCKOUT_BONUS.runnerUp;
+  if (stage === 'runnerUp') return KNOCKOUT_BONUS.runnerUp;
 
-  if (stage === 'final') return KNOCKOUT_BONUS.final;
+  if (stage === 'final') return KNOCKOUT_BONUS.final;
 
-  return KNOCKOUT_BONUS[stage] || 0;
+  return KNOCKOUT_BONUS[stage] || 0;
 
 }
 
@@ -571,77 +561,77 @@ function knockoutPointsForStage(stage) {
 
 function calculateTeamPoints(state) {
 
-  const { matches, knockoutTeams } = state;
+  const { matches, knockoutTeams } = state;
 
-  const points = {};
-
-
-
-  const init = (code) => {
-
-    if (code) points[code] = 0;
-
-  };
+  const points = {};
 
 
 
-  for (const m of matches) {
+  const init = (code) => {
 
-    if (m.stage !== 'group' || !matchPlayed(m)) continue;
+    if (code) points[code] = 0;
 
-    init(m.home);
-
-    init(m.away);
-
-    // Use hardcoded scores if available and enabled
-    let homeScore = m.homeScore;
-    let awayScore = m.awayScore;
-    
-    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
-      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-      if (hardcodedScore) {
-        homeScore = hardcodedScore.homeScore;
-        awayScore = hardcodedScore.awayScore;
-      }
-    }
-
-    const { home, away } = groupMatchPoints(homeScore, awayScore);
-
-    points[m.home] += home;
-
-    points[m.away] += away;
-
-  }
+  };
 
 
 
-  const { bonuses } = buildGroupStandings(matches);
+  for (const m of matches) {
 
-  for (const [code, bonus] of Object.entries(bonuses)) {
+    if (m.stage !== 'group' || !matchPlayed(m)) continue;
 
-    init(code);
+    init(m.home);
 
-    points[code] = (points[code] || 0) + bonus;
+    init(m.away);
 
-  }
+    // Use hardcoded scores if available and enabled
+    let homeScore = m.homeScore;
+    let awayScore = m.awayScore;
+    
+    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
+      if (hardcodedScore) {
+        homeScore = hardcodedScore.homeScore;
+        awayScore = hardcodedScore.awayScore;
+      }
+    }
+
+    const { home, away } = groupMatchPoints(homeScore, awayScore);
+
+    points[m.home] += home;
+
+    points[m.away] += away;
+
+  }
 
 
 
-  const reach = getKnockoutReach(matches, knockoutTeams);
+  const { bonuses } = buildGroupStandings(matches);
 
-  for (const [code, stage] of Object.entries(reach)) {
+  for (const [code, bonus] of Object.entries(bonuses)) {
 
-    if (!code) continue;
+    init(code);
 
-    init(code);
+    points[code] = (points[code] || 0) + bonus;
 
-    points[code] = (points[code] || 0) + knockoutPointsForStage(stage);
-
-  }
+  }
 
 
 
-  return points;
+  const reach = getKnockoutReach(matches, knockoutTeams);
+
+  for (const [code, stage] of Object.entries(reach)) {
+
+    if (!code) continue;
+
+    init(code);
+
+    points[code] = (points[code] || 0) + knockoutPointsForStage(stage);
+
+  }
+
+
+
+  return points;
 
 }
 
@@ -649,13 +639,13 @@ function calculateTeamPoints(state) {
 
 function countTeamMatchesPlayed(state, code) {
 
-  if (!code) return 0;
+  if (!code) return 0;
 
-  return state.matches.filter(
+  return state.matches.filter(
 
-    (m) => matchPlayed(m) && (m.home === code || m.away === code)
+    (m) => matchPlayed(m) && (m.home === code || m.away === code)
 
-  ).length;
+  ).length;
 
 }
 
@@ -663,7 +653,7 @@ function countTeamMatchesPlayed(state, code) {
 
 function playerGamesPlayed(state, teamCodes) {
 
-  return (teamCodes || []).reduce((sum, c) => sum + countTeamMatchesPlayed(state, c), 0);
+  return (teamCodes || []).reduce((sum, c) => sum + countTeamMatchesPlayed(state, c), 0);
 
 }
 
@@ -671,23 +661,23 @@ function playerGamesPlayed(state, teamCodes) {
 
 function computeRankMovement(row, prevSnapshot) {
 
-  const prev = (prevSnapshot || []).find((p) => p.player === row.player);
+  const prev = (prevSnapshot || []).find((p) => p.player === row.player);
 
-  if (!prev) return { text: '—', class: 'move-new', title: 'New on leaderboard' };
+  if (!prev) return { text: '—', class: 'move-new', title: 'New on leaderboard' };
 
-  const diff = prev.rank - row.rank;
+  const diff = prev.rank - row.rank;
 
-  if (diff > 0) return { text: `↑${diff}`, class: 'move-up', title: `Up ${diff} place${diff > 1 ? 's' : ''}` };
+  if (diff > 0) return { text: `↑${diff}`, class: 'move-up', title: `Up ${diff} place${diff > 1 ? 's' : ''}` };
 
-  if (diff < 0) {
+  if (diff < 0) {
 
-    const n = Math.abs(diff);
+    const n = Math.abs(diff);
 
-    return { text: `↓${n}`, class: 'move-down', title: `Down ${n} place${n > 1 ? 's' : ''}` };
+    return { text: `↓${n}`, class: 'move-down', title: `Down ${n} place${n > 1 ? 's' : ''}` };
 
-  }
+  }
 
-  return { text: '—', class: 'move-same', title: 'No change' };
+  return { text: '—', class: 'move-same', title: 'No change' };
 
 }
 
@@ -695,33 +685,33 @@ function computeRankMovement(row, prevSnapshot) {
 
 function buildLeaderboardRows(state) {
 
-  const teamPts = calculateTeamPoints(state);
+  const teamPts = calculateTeamPoints(state);
 
-  const rows = getPlayers(state).map((p) => {
+  const rows = getPlayers(state).map((p) => {
 
-    const codes = p.teamCodes || [];
+    const codes = p.teamCodes || [];
 
-    const totalPoints = codes.reduce((sum, c) => sum + (teamPts[c] || 0), 0);
+    const totalPoints = codes.reduce((sum, c) => sum + (teamPts[c] || 0), 0);
 
-    const points = codes.length > 0 ? totalPoints / codes.length : 0;
+    const points = codes.length > 0 ? totalPoints / codes.length : 0;
 
-    return {
+    return {
 
-      player: p.name,
+      player: p.name,
 
-      teamCodes: codes,
+      teamCodes: codes,
 
-      points,
+      points,
 
-      gamesPlayed: playerGamesPlayed(state, codes),
+      gamesPlayed: playerGamesPlayed(state, codes),
 
-    };
+    };
 
-  });
+  });
 
-  rows.sort((a, b) => b.points - a.points);
+  rows.sort((a, b) => b.points - a.points);
 
-  return rows.map((r, i) => ({ rank: i + 1, ...r }));
+  return rows.map((r, i) => ({ rank: i + 1, ...r }));
 
 }
 
@@ -729,29 +719,29 @@ function buildLeaderboardRows(state) {
 
 function updateLeaderboardSnapshots(state) {
 
-  const board = buildLeaderboardRows(state);
+  const board = buildLeaderboardRows(state);
 
-  const movement = {};
+  const movement = {};
 
-  for (const row of board) {
+  for (const row of board) {
 
-    movement[row.player] = computeRankMovement(row, state.lastLeaderboard);
+    movement[row.player] = computeRankMovement(row, state.lastLeaderboard);
 
-  }
+  }
 
-  state.rankMovement = movement;
+  state.rankMovement = movement;
 
-  state.lastLeaderboard = board.map((r) => ({
+  state.lastLeaderboard = board.map((r) => ({
 
-    player: r.player,
+    player: r.player,
 
-    rank: r.rank,
+    rank: r.rank,
 
-    points: r.points,
+    points: r.points,
 
-  }));
+  }));
 
-  return state;
+  return state;
 
 }
 
@@ -759,17 +749,17 @@ function updateLeaderboardSnapshots(state) {
 
 function getLeaderboard(state) {
 
-  return buildLeaderboardRows(state).map((row) => ({
+  return buildLeaderboardRows(state).map((row) => ({
 
-    ...row,
+    ...row,
 
-    movement:
+    movement:
 
-      state.rankMovement?.[row.player] ||
+      state.rankMovement?.[row.player] ||
 
-      computeRankMovement(row, state.lastLeaderboard),
+      computeRankMovement(row, state.lastLeaderboard),
 
-  }));
+  }));
 
 }
 
@@ -777,65 +767,65 @@ function getLeaderboard(state) {
 
 function getTeamStats(state, code) {
 
-  const teamPts = calculateTeamPoints(state);
+  const teamPts = calculateTeamPoints(state);
 
-  const { tables, bonuses } = buildGroupStandings(state.matches);
+  const { tables, bonuses } = buildGroupStandings(state.matches);
 
-  const reach = getKnockoutReach(state.matches, state.knockoutTeams);
+  const reach = getKnockoutReach(state.matches, state.knockoutTeams);
 
-  const groupRow = Object.entries(tables).find(([, teams]) =>
+  const groupRow = Object.entries(tables).find(([, teams]) =>
 
-    teams.some((t) => t.code === code)
+    teams.some((t) => t.code === code)
 
-  );
+  );
 
-  const gs = groupRow?.[1]?.find((t) => t.code === code);
+  const gs = groupRow?.[1]?.find((t) => t.code === code);
 
-  const posIdx = groupRow ? groupRow[1].findIndex((t) => t.code === code) : -1;
+  const posIdx = groupRow ? groupRow[1].findIndex((t) => t.code === code) : -1;
 
-  const groupPts = gs?.pts ?? 0;
+  const groupPts = gs?.pts ?? 0;
 
-  const groupBonus = bonuses[code] || 0;
+  const groupBonus = bonuses[code] || 0;
 
-  const knockoutPts = knockoutPointsForStage(reach[code] || '');
+  const knockoutPts = knockoutPointsForStage(reach[code] || '');
 
-  const matchPts = (teamPts[code] || 0) - groupBonus - knockoutPts;
+  const matchPts = (teamPts[code] || 0) - groupBonus - knockoutPts;
 
 
 
-  return {
+  return {
 
-    code,
+    code,
 
-    team: getTeamByCode(code),
+    team: getTeamByCode(code),
 
-    totalPoints: teamPts[code] || 0,
+    totalPoints: teamPts[code] || 0,
 
-    matchPoints: Math.max(0, matchPts),
+    matchPoints: Math.max(0, matchPts),
 
-    groupBonus,
+    groupBonus,
 
-    knockoutPoints: knockoutPts,
+    knockoutPoints: knockoutPts,
 
-    knockoutStage: reach[code] || null,
+    knockoutStage: reach[code] || null,
 
-    played: countTeamMatchesPlayed(state, code),
+    played: countTeamMatchesPlayed(state, code),
 
-    w: gs?.w ?? 0,
+    w: gs?.w ?? 0,
 
-    d: gs?.d ?? 0,
+    d: gs?.d ?? 0,
 
-    l: gs?.l ?? 0,
+    l: gs?.l ?? 0,
 
-    gd: gs?.gd ?? 0,
+    gd: gs?.gd ?? 0,
 
-    group: groupRow?.[0] ?? '—',
+    group: groupRow?.[0] ?? '—',
 
-    groupPosition: posIdx >= 0 ? posIdx + 1 : null,
+    groupPosition: posIdx >= 0 ? posIdx + 1 : null,
 
-    groupPts,
+    groupPts,
 
-  };
+  };
 
 }
 
@@ -843,35 +833,35 @@ function getTeamStats(state, code) {
 
 function getPlayerProfile(state, playerName) {
 
-  const player = getPlayers(state).find(
+  const player = getPlayers(state).find(
 
-    (p) => p.name.toLowerCase() === playerName.toLowerCase()
+    (p) => p.name.toLowerCase() === playerName.toLowerCase()
 
-  );
+  );
 
-  if (!player) return null;
+  if (!player) return null;
 
-  const board = getLeaderboard(state);
+  const board = getLeaderboard(state);
 
-  const row = board.find((r) => r.player === player.name);
+  const row = board.find((r) => r.player === player.name);
 
-  const teams = (player.teamCodes || []).map((code) => getTeamStats(state, code));
+  const teams = (player.teamCodes || []).map((code) => getTeamStats(state, code));
 
-  return {
+  return {
 
-    name: player.name,
+    name: player.name,
 
-    rank: row?.rank ?? '—',
+    rank: row?.rank ?? '—',
 
-    totalPoints: row?.points ?? 0,
+    totalPoints: row?.points ?? 0,
 
-    gamesPlayed: row?.gamesPlayed ?? 0,
+    gamesPlayed: row?.gamesPlayed ?? 0,
 
-    movement: row?.movement,
+    movement: row?.movement,
 
-    teams,
+    teams,
 
-  };
+  };
 
 }
 
@@ -879,65 +869,65 @@ function getPlayerProfile(state, playerName) {
 
 function categorizeMatches(state) {
 
-  const today = getLocalDateString();
+  const today = getLocalDateString();
 
-  const buckets = { today: [], live: [], upcoming: [], completed: [] };
-
-
-
-  for (const m of state.matches) {
-
-    if (!m.home && !m.away) continue;
-
-    const played = matchPlayed(m);
-
-    const entry = { ...m, played };
-
-    const matchDay = matchLocalDate(m);
+  const buckets = { today: [], live: [], upcoming: [], completed: [] };
 
 
 
-    if (played) {
+  for (const m of state.matches) {
 
-      buckets.completed.push(entry);
+    if (!m.home && !m.away) continue;
 
-    } else if (matchDay > today) {
+    const played = matchPlayed(m);
 
-      buckets.upcoming.push(entry);
+    const entry = { ...m, played };
 
-    } else if (matchDay === today) {
-
-      buckets.today.push(entry);
-
-      buckets.live.push(entry);
-
-    } else {
-
-      buckets.upcoming.push(entry);
-
-    }
-
-  }
+    const matchDay = matchLocalDate(m);
 
 
 
-  const byDate = (a, b) =>
+    if (played) {
 
-    matchLocalDate(a).localeCompare(matchLocalDate(b)) ||
+      buckets.completed.push(entry);
 
-    (a.kickoff || '').localeCompare(b.kickoff || '') ||
+    } else if (matchDay > today) {
 
-    (a.matchNum || 0) - (b.matchNum || 0);
+      buckets.upcoming.push(entry);
 
-  buckets.completed.sort((a, b) => matchLocalDate(b).localeCompare(matchLocalDate(a)));
+    } else if (matchDay === today) {
 
-  buckets.today.sort(byDate);
+      buckets.today.push(entry);
 
-  buckets.live.sort(byDate);
+      buckets.live.push(entry);
 
-  buckets.upcoming.sort(byDate);
+    } else {
 
-  return buckets;
+      buckets.upcoming.push(entry);
+
+    }
+
+  }
+
+
+
+  const byDate = (a, b) =>
+
+    matchLocalDate(a).localeCompare(matchLocalDate(b)) ||
+
+    (a.kickoff || '').localeCompare(b.kickoff || '') ||
+
+    (a.matchNum || 0) - (b.matchNum || 0);
+
+  buckets.completed.sort((a, b) => matchLocalDate(b).localeCompare(matchLocalDate(a)));
+
+  buckets.today.sort(byDate);
+
+  buckets.live.sort(byDate);
+
+  buckets.upcoming.sort(byDate);
+
+  return buckets;
 
 }
 
@@ -945,59 +935,59 @@ function categorizeMatches(state) {
 
 function getTeamRankings(state) {
 
-  const teamPts = calculateTeamPoints(state);
+  const teamPts = calculateTeamPoints(state);
 
-  const { tables } = buildGroupStandings(state.matches);
+  const { tables } = buildGroupStandings(state.matches);
 
-  const groupByTeam = {};
+  const groupByTeam = {};
 
-  Object.entries(tables).forEach(([g, teams]) => {
+  Object.entries(tables).forEach(([g, teams]) => {
 
-    teams.forEach((t, idx) => {
+    teams.forEach((t, idx) => {
 
-      groupByTeam[t.code] = { group: g, position: idx + 1, ...t };
+      groupByTeam[t.code] = { group: g, position: idx + 1, ...t };
 
-    });
+    });
 
-  });
+  });
 
 
 
-  return getAllTournamentTeamCodes()
+  return getAllTournamentTeamCodes()
 
-    .map((code) => {
+    .map((code) => {
 
-      const team = getTeamByCode(code);
+      const team = getTeamByCode(code);
 
-      const gs = groupByTeam[code];
+      const gs = groupByTeam[code];
 
-      return {
+      return {
 
-        code,
+        code,
 
-        team,
+        team,
 
-        points: teamPts[code] || 0,
+        points: teamPts[code] || 0,
 
-        played: gs?.played ?? 0,
+        played: gs?.played ?? 0,
 
-        w: gs?.w ?? 0,
+        w: gs?.w ?? 0,
 
-        d: gs?.d ?? 0,
+        d: gs?.d ?? 0,
 
-        l: gs?.l ?? 0,
+        l: gs?.l ?? 0,
 
-        gd: gs?.gd ?? 0,
+        gd: gs?.gd ?? 0,
 
-        group: gs?.group ?? '—',
+        group: gs?.group ?? '—',
 
-        groupPts: gs?.pts ?? 0,
+        groupPts: gs?.pts ?? 0,
 
-      };
+      };
 
-    })
+    })
 
-    .sort((a, b) => b.points - a.points || b.gd - a.gd);
+    .sort((a, b) => b.points - a.points || b.gd - a.gd);
 
 }
 
@@ -1005,35 +995,35 @@ function getTeamRankings(state) {
 
 function updateMatches(state, date, formMatches) {
 
-  const byId = Object.fromEntries(formMatches.map((m) => [m.id, m]));
+  const byId = Object.fromEntries(formMatches.map((m) => [m.id, m]));
 
-  state.matches = state.matches.map((m) => {
+  state.matches = state.matches.map((m) => {
 
-    if (m.date !== date) return m;
+    if (m.date !== date) return m;
 
-    const upd = byId[m.id];
+    const upd = byId[m.id];
 
-    if (!upd) return m;
+    if (!upd) return m;
 
-    return {
+    return {
 
-      ...m,
+      ...m,
 
-      homeScore: upd.homeScore === '' ? null : Number(upd.homeScore),
+      homeScore: upd.homeScore === '' ? null : Number(upd.homeScore),
 
-      awayScore: upd.awayScore === '' ? null : Number(upd.awayScore),
+      awayScore: upd.awayScore === '' ? null : Number(upd.awayScore),
 
-      home: upd.home ?? m.home,
+      home: upd.home ?? m.home,
 
-      away: upd.away ?? m.away,
+      away: upd.away ?? m.away,
 
-    };
+    };
 
-  });
+  });
 
-  saveState(state);
+  saveState(state);
 
-  return state;
+  return state;
 
 }
 
@@ -1041,11 +1031,11 @@ function updateMatches(state, date, formMatches) {
 
 function saveKnockoutProgress(state, knockoutTeams) {
 
-  state.knockoutTeams = knockoutTeams;
+  state.knockoutTeams = knockoutTeams;
 
-  saveState(state);
+  saveState(state);
 
-  return state;
+  return state;
 
 }
 
@@ -1053,7 +1043,6 @@ function saveKnockoutProgress(state, knockoutTeams) {
 
 function getMatchDatesFromState(state) {
 
-  return getMatchDates(state.matches);
+  return getMatchDates(state.matches);
 
 }
-but now the group table is for group k and group l is played 1 game and drawn 1 game but points is still 0
