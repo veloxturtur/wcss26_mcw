@@ -13,8 +13,8 @@ const HARDCODED_MATCH_SCORES = {
   'g-A-2-1': { homeScore: null, awayScore: null }, // RSA vs KOR
 
   // Group B
-  'g-B-0-0': { homeScore: null, awayScore: null }, // CAN vs BIH
-  'g-B-0-1': { homeScore: null, awayScore: null }, // QAT vs SUI
+  'g-B-0-0': { homeScore: 1, awayScore: 1 }, // CAN vs BIH
+  'g-B-0-1': { homeScore: 1, awayScore: 1 }, // QAT vs SUI
   'g-B-1-0': { homeScore: null, awayScore: null }, // SUI vs BIH
   'g-B-1-1': { homeScore: null, awayScore: null }, // CAN vs QAT
   'g-B-2-0': { homeScore: null, awayScore: null }, // SUI vs CAN
