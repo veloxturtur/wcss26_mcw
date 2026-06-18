@@ -86,15 +86,15 @@ const HARDCODED_MATCH_SCORES = {
 
   // Group K
   'g-K-0-0': { homeScore: null, awayScore: null }, // POR vs COD
-  'g-K-0-1': { homeScore: null, awayScore: null }, // UZB vs COL
+  'g-K-0-1': { homeScore: 1, awayScore: 3 }, // UZB vs COL
   'g-K-1-0': { homeScore: null, awayScore: null }, // POR vs UZB
   'g-K-1-1': { homeScore: null, awayScore: null }, // COL vs COD
   'g-K-2-0': { homeScore: null, awayScore: null }, // COL vs POR
   'g-K-2-1': { homeScore: null, awayScore: null }, // COD vs UZB
 
   // Group L
-  'g-L-0-0': { homeScore: null, awayScore: null }, // ENG vs CRO
-  'g-L-0-1': { homeScore: null, awayScore: null }, // GHA vs PAN
+  'g-L-0-0': { homeScore: 4, awayScore: 2 }, // ENG vs CRO
+  'g-L-0-1': { homeScore: 1, awayScore: 0 }, // GHA vs PAN
   'g-L-1-0': { homeScore: null, awayScore: null }, // ENG vs GHA
   'g-L-1-1': { homeScore: null, awayScore: null }, // PAN vs CRO
   'g-L-2-0': { homeScore: null, awayScore: null }, // PAN vs ENG
