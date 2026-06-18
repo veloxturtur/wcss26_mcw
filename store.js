@@ -350,15 +350,13 @@ function matchPlayed(m) {
 
 
 function groupMatchPoints(homeScore, awayScore) {
-
+  // SAFETY NET: Ignore unplayed/null games completely
+  if (homeScore === null || awayScore === null) return { home: 0, away: 0 };
+  
   if (homeScore > awayScore) return { home: 3, away: 0 };
-
   if (homeScore < awayScore) return { home: 0, away: 3 };
-
   return { home: 1, away: 1 };
-
 }
-
 
 
 function buildGroupStandings(matches) {
