@@ -335,13 +335,14 @@ function getPlayerByTeamCode(state, code) {
 
 function matchPlayed(m) {
   // Check if match has hardcoded scores
-  if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
-    const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
-    if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.homeScore !== undefined && 
-        hardcodedScore.awayScore !== null && hardcodedScore.awayScore !== undefined) {
-      return true;
+ if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+      const hardcodedScore = HARDCODED_MATCH_SCORES[m.id];
+      // FIX: Only overwrite if the hardcoded scores are NOT null
+      if (hardcodedScore && hardcodedScore.homeScore !== null && hardcodedScore.awayScore !== null) {
+        homeScore = hardcodedScore.homeScore;
+        awayScore = hardcodedScore.awayScore;
+      }
     }
-  }
   
   return m.homeScore !== null && m.awayScore !== null && m.homeScore !== '' && m.awayScore !== '';
 
