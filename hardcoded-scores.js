@@ -94,7 +94,7 @@ const HARDCODED_MATCH_SCORES = {
 
   // Group L
   'g-L-0-0': { homeScore: 4, awayScore: 2 }, // ENG vs CRO
-  'g-L-0-1': { homeScore: 1, awayScore: 0 }, // GHA vs PAN
+  'g-L-0-1': { homeScore: 0, awayScore: 1 }, // PAN vs GHA
   'g-L-1-0': { homeScore: null, awayScore: null }, // ENG vs GHA
   'g-L-1-1': { homeScore: null, awayScore: null }, // PAN vs CRO
   'g-L-2-0': { homeScore: null, awayScore: null }, // PAN vs ENG
