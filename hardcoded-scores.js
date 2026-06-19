@@ -15,9 +15,9 @@ const HARDCODED_MATCH_SCORES = {
   // Group B (CAN, BIH, QAT, SUI)
   'g-B-0-0': { homeScore: null, awayScore: null }, // CAN vs QAT
   'g-B-0-1': { homeScore: null, awayScore: null }, // SUI vs BIH
-  'g-B-1-0': { homeScore: 0, awayScore: 1 }, // CAN vs QAT
+  'g-B-1-0': { homeScore: null, awayScore: null }, // CAN vs SUI
   'g-B-1-1': { homeScore: null, awayScore: null }, // QAT vs BIH
-  'g-B-2-0': { homeScore: null, awayScore: null }, // CAN vs SUI
+  'g-B-2-0': { homeScore: 1, awayScore: 0 }, // CAN vs SUI
   'g-B-2-1': { homeScore: null, awayScore: null }, // QAT vs SUI
 
   // Group C (BRA, MAR, HTI, SCO)
