@@ -31,7 +31,7 @@ const HARDCODED_MATCH_SCORES = {
   // Group D (USA, PAR, AUS, TUR)
   'g-D-0-0': { homeScore: 4, awayScore: 1 }, // USA vs PAR
   'g-D-0-1': { homeScore: 2, awayScore: 0 }, // AUS vs TUR
-  'g-D-1-0': { homeScore: null, awayScore: null }, // USA vs AUS
+  'g-D-1-0': { homeScore: 2, awayScore: 0 }, // USA vs AUS
   'g-D-1-1': { homeScore: null, awayScore: null }, // PAR vs TUR
   'g-D-2-0': { homeScore: null, awayScore: null }, // TUR vs USA
   'g-D-2-1': { homeScore: null, awayScore: null }, // PAR vs AUS
