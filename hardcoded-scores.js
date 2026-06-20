@@ -49,7 +49,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-F-0-1': { homeScore: 1, awayScore: 5 }, // TUN vs SWE
   'g-F-1-0': { homeScore: null, awayScore: null }, // NED vs TUN
   'g-F-1-1': { homeScore: null, awayScore: null }, // JPN vs SWE
-  'g-F-2-0': { homeScore: null, awayScore: null }, // SWE vs NED
+  'g-F-2-0': { homeScore: 1, awayScore: 5 }, // SWE vs NED
   'g-F-2-1': { homeScore: null, awayScore: null }, // JPN vs TUN
 
   // Group G (BEL, EGY, IRN, NZL)
