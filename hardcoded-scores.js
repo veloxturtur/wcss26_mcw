@@ -39,8 +39,8 @@ const HARDCODED_MATCH_SCORES = {
   // Group E (GER, CUW, CIV, ECU)
   'g-E-0-0': { homeScore: 7, awayScore: 1 }, // GER vs CUW
   'g-E-0-1': { homeScore: 1, awayScore: 0 }, // CIV vs ECU
-  'g-E-1-0': { homeScore: null, awayScore: null }, // GER vs CIV
-  'g-E-1-1': { homeScore: null, awayScore: null }, // CUW vs ECU
+  'g-E-1-0': { homeScore: 2, awayScore: 1 }, // GER vs CIV
+  'g-E-1-1': { homeScore: 0, awayScore: 0 }, // CUW vs ECU
   'g-E-2-0': { homeScore: null, awayScore: null }, // ECU vs GER
   'g-E-2-1': { homeScore: null, awayScore: null }, // CUW vs CIV
 
@@ -50,7 +50,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-F-1-0': { homeScore: null, awayScore: null }, // NED vs TUN
   'g-F-1-1': { homeScore: null, awayScore: null }, // JPN vs SWE
   'g-F-2-0': { homeScore: 5, awayScore: 1 }, // NED vs SWE
-  'g-F-2-1': { homeScore: null, awayScore: null }, // JPN vs TUN
+  'g-F-2-1': { homeScore: 4, awayScore: 0 }, // JPN vs TUN
 
   // Group G (BEL, EGY, IRN, NZL)
   'g-G-0-0': { homeScore: 1, awayScore: 1 }, // BEL vs EGY
