@@ -79,7 +79,7 @@ const HARDCODED_MATCH_SCORES = {
   // Group J (ARG, ALG, AUT, JOR)
   'g-J-0-0': { homeScore: 3, awayScore: 0 }, // ARG vs ALG
   'g-J-0-1': { homeScore: 3, awayScore: 1 }, // AUT vs JOR
-  'g-J-1-0': { homeScore: null, awayScore: null }, // ARG vs AUT
+  'g-J-1-0': { homeScore: 2, awayScore: 0 }, // ARG vs AUT
   'g-J-1-1': { homeScore: null, awayScore: null }, // ALG vs JOR
   'g-J-2-0': { homeScore: null, awayScore: null }, // JOR vs ARG
   'g-J-2-1': { homeScore: null, awayScore: null }, // ALG vs AUT
