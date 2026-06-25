@@ -21,12 +21,12 @@ const HARDCODED_MATCH_SCORES = {
   'g-B-2-1': { homeScore: 1, awayScore: 1 }, // QAT vs SUI
 
   // Group C (BRA, MAR, HTI, SCO)
-  'g-C-0-0': { homeScore: null, awayScore: null }, // BRA vs MAR
-  'g-C-0-1': { homeScore: null, awayScore: null }, // SCO vs HTI
-  'g-C-1-0': { homeScore: null, awayScore: null }, // BRA vs SCO
-  'g-C-1-1': { homeScore: null, awayScore: null }, // MAR vs HTI
-  'g-C-2-0': { homeScore: null, awayScore: null }, // BRA vs HTI
-  'g-C-2-1': { homeScore: 1, awayScore: 0 }, // MAR vs HTI
+  'g-C-0-0': { homeScore: 1, awayScore: 1 }, // BRA vs MAR
+  'g-C-0-1': { homeScore: 1, awayScore: 0 }, // SCO vs HTI
+  'g-C-1-0': { homeScore: 3, awayScore: 0 }, // BRA vs SCO
+  'g-C-1-1': { homeScore: 4, awayScore: 2 }, // MAR vs HTI
+  'g-C-2-0': { homeScore: 3, awayScore: 0 }, // BRA vs HTI
+  'g-C-2-1': { homeScore: 1, awayScore: 0 }, // MAR vs SCO
 
   // Group D (USA, PAR, AUS, TUR)
   'g-D-0-0': { homeScore: 4, awayScore: 1 }, // USA vs PAR
