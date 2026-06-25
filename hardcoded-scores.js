@@ -25,7 +25,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-C-0-1': { homeScore: 1, awayScore: 0 }, // HTI vs SCO
   'g-C-1-0': { homeScore: 0, awayScore: 3 }, // HTI vs BRA
   'g-C-1-1': { homeScore: 1, awayScore: 0 }, // MAR vs SCO
-  'g-C-2-0': { homeScore: 0, awayScore: 3 }, // SCO vs BRA
+  'g-C-2-0': { homeScore: 3, awayScore: 0 }, // BRA vs SCO
   'g-C-2-1': { homeScore: 4, awayScore: 2 }, // MAR vs HTI
 
   // Group D (USA, PAR, AUS, TUR)
