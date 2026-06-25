@@ -21,8 +21,8 @@ const HARDCODED_MATCH_SCORES = {
   'g-B-2-1': { homeScore: 1, awayScore: 1 }, // QAT vs SUI
 
   // Group C (BRA, MAR, HTI, SCO)
-  'g-C-0-0': { homeScore: 0, awayScore: 1 }, // BRA vs MAR
-  'g-C-0-1': { homeScore: null, awayScore: null }, // HTI vs SCO
+  'g-C-0-0': { homeScore: null, awayScore: null }, // BRA vs MAR
+  'g-C-0-1': { homeScore: 1, awayScore: 0 }, // HTI vs SCO
   'g-C-1-0': { homeScore: null, awayScore: null }, // HTI vs BRA
   'g-C-1-1': { homeScore: null, awayScore: null }, // MAR vs SCO
   'g-C-2-0': { homeScore: null, awayScore: null }, // BRA vs SCO
