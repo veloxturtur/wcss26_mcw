@@ -33,7 +33,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-D-0-1': { homeScore: 2, awayScore: 0 }, // AUS vs TUR
   'g-D-1-0': { homeScore: 2, awayScore: 0 }, // USA vs AUS
   'g-D-1-1': { homeScore: 1, awayScore: 0 }, // PAR vs TUR
-  'g-D-2-0': { homeScore: 3, awayScore: 2 }, // TUR vs USA
+  'g-D-2-0': { homeScore: 2, awayScore: 3 }, // USA vs TUR
   'g-D-2-1': { homeScore: 0, awayScore: 0 }, // PAR vs AUS
 
   // Group E (GER, CUW, CIV, ECU)
@@ -41,7 +41,7 @@ const HARDCODED_MATCH_SCORES = {
   'g-E-0-1': { homeScore: 1, awayScore: 0 }, // CIV vs ECU
   'g-E-1-0': { homeScore: 2, awayScore: 1 }, // GER vs CIV
   'g-E-1-1': { homeScore: 0, awayScore: 0 }, // CUW vs ECU
-  'g-E-2-0': { homeScore: 2, awayScore: 1 }, // ECU vs GER
+  'g-E-2-0': { homeScore: 1, awayScore: 2 }, // GER vs ECU
   'g-E-2-1': { homeScore: 0, awayScore: 2 }, // CUW vs CIV
 
   // Group F (NED, JPN, TUN, SWE)
