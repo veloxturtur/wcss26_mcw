@@ -71,8 +71,8 @@ const HARDCODED_MATCH_SCORES = {
   // Group I (FRA, SEN, NOR, IRQ)
   'g-I-0-0': { homeScore: 3, awayScore: 1 }, // FRA vs SEN
   'g-I-0-1': { homeScore: 4, awayScore: 1 }, // NOR vs IRQ
-  'g-I-1-0': { homeScore: null, awayScore: null }, // FRA vs NOR
-  'g-I-1-1': { homeScore: null, awayScore: null }, // SEN vs IRQ
+  'g-I-1-0': { homeScore: 4, awayScore: 1 }, // FRA vs NOR
+  'g-I-1-1': { homeScore: 5, awayScore: 0 }, // SEN vs IRQ
   'g-I-2-0': { homeScore: 3, awayScore: 0 }, // FRA vs IRQ
   'g-I-2-1': { homeScore: 2, awayScore: 3 }, // SEN vs NOR
 
