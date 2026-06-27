@@ -12,6 +12,8 @@ const DATA_VERSION = 5;
 
 const HARD_CODED_PLAYER_INPUT = [
 
+
+
  { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
 
  { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
@@ -41,6 +43,7 @@ const HARD_CODED_PLAYER_INPUT = [
  { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
 
 ];
+
 
 
 
@@ -480,57 +483,42 @@ function buildGroupStandings(matches) {
 
 
 function getKnockoutReach(matches, knockoutTeams) {
-
   const reach = { ...knockoutTeams };
 
-
-
   const knockoutMatches = matches
-
     .filter((m) => m.stage !== 'group' && matchPlayed(m))
-
     .sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
 
-
-
   for (const m of knockoutMatches) {
-
     const stage = m.stage;
-
     if (m.home) reach[m.home] = maxStage(reach[m.home], stage);
-
     if (m.away) reach[m.away] = maxStage(reach[m.away], stage);
 
-
-
-    if (m.homeScore === m.awayScore) continue;
-
-    const winner = m.homeScore > m.awayScore ? m.home : m.away;
-
-    const loser = m.homeScore > m.awayScore ? m.away : m.home;
-
-
-
-    if (stage === 'final') {
-
-      reach[winner] = 'final';
-
-      reach[loser] = 'runnerUp';
-
-    } else {
-
-      const next = nextStage(stage);
-
-      if (next && winner) reach[winner] = maxStage(reach[winner], next);
-
+    // UPGRADE: Check hardcoded scores first!
+    let hs = m.homeScore;
+    let as = m.awayScore;
+    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+      const hard = HARDCODED_MATCH_SCORES[m.id];
+      if (hard && hard.homeScore !== null && hard.awayScore !== null) {
+        hs = hard.homeScore;
+        as = hard.awayScore;
+      }
     }
 
+    if (hs == null || as == null || hs === as) continue;
+    const winner = hs > as ? m.home : m.away;
+    const loser = hs > as ? m.away : m.home;
+
+    if (stage === 'final') {
+      reach[winner] = 'final';
+      reach[loser] = 'runnerUp';
+    } else {
+      const next = nextStage(stage);
+      if (next && winner) reach[winner] = maxStage(reach[winner], next);
+    }
   }
-
   return reach;
-
 }
-
 
 
 function maxStage(a, b) {
@@ -616,7 +604,6 @@ function calculateTeamPoints(state) {
 
   return points;
 }
-
 
 
 function countTeamMatchesPlayed(state, code) {
