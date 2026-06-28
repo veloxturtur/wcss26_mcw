@@ -9,7 +9,7 @@ const BRACKET_ROUNDS = [
 function renderBracketTeam(m, side) {
   const code = side === 'home' ? m.home : m.away;
   const slot = side === 'home' ? m.homeSlot : m.awaySlot;
-  if (code) return renderTeamCell(code);
+  if (code && code !== 'TBD' && code !== 'null') return renderTeamCell(code);
   const label = slot ? knockoutSlotLabel(slot) : null;
   if (label) {
     return `<span class="team-unknown">TBD <span class="bracket-slot">(${label})</span></span>`;
@@ -30,12 +30,20 @@ function renderBracketMatch(m) {
         ? m.home
         : m.away
       : null;
+
+  let dateStr = '';
+  try {
+    dateStr = typeof formatMatchDateTime === 'function' ? formatMatchDateTime(m) : (m.date || '');
+  } catch {
+    dateStr = m.date || '';
+  }
+
   return `
     <div class="bracket-match ${winner ? 'bracket-match-done' : ''}">
       <div class="bracket-team ${winner === m.home ? 'bracket-winner' : ''}">${home}</div>
       ${score}
       <div class="bracket-team ${winner === m.away ? 'bracket-winner' : ''}">${away}</div>
-      <div class="bracket-date">${formatMatchDateTime(m)}</div>
+      <div class="bracket-date">${dateStr}</div>
     </div>`;
 }
 
@@ -44,7 +52,42 @@ function renderBracket() {
   const wrap = document.getElementById('knockout-bracket');
   if (!wrap) return;
 
-  const knockout = state.matches.filter((m) => m.stage !== 'group');
+  // UPGRADE: Directly constructs the bracket out of hardcoded-scores.js!
+  const customKnockout = [];
+
+  if (typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+    for (const [id, data] of Object.entries(HARDCODED_MATCH_SCORES)) {
+      if (!id.startsWith('g-') && !id.includes('3rd')) {
+        let stg = 'r32';
+        if (id.includes('r16')) stg = 'r16';
+        else if (id.includes('qf')) stg = 'qf';
+        else if (id.includes('sf')) stg = 'sf';
+        else if (id.includes('final') || id.includes('Final')) stg = 'final';
+
+        const man = state.manualScores?.[id] || {};
+        const hs = man.homeScore !== undefined ? man.homeScore : data.homeScore;
+        const as = man.awayScore !== undefined ? man.awayScore : data.awayScore;
+
+        customKnockout.push({
+          id,
+          stage: stg,
+          home: data.home || null,
+          away: data.away || null,
+          homeSlot: data.homeSlot || null,
+          awaySlot: data.awaySlot || null,
+          homeScore: hs,
+          awayScore: as,
+          date: data.date || '2026-06-28',
+          matchNum: parseInt(id.replace(/\D/g, ''), 10) || 0
+        });
+      }
+    }
+  }
+
+  const knockout = customKnockout.length > 0 
+    ? customKnockout 
+    : state.matches.filter((m) => m.stage !== 'group');
+
   const byStage = {};
   for (const r of BRACKET_ROUNDS) byStage[r.key] = [];
   for (const m of knockout) {
