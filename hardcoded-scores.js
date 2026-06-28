@@ -81,12 +81,12 @@ const HARDCODED_MATCH_SCORES = {
   'g-J-0-1': { homeScore: 3, awayScore: 1 }, // AUT vs JOR
   'g-J-1-0': { homeScore: 2, awayScore: 0 }, // ARG vs AUT
   'g-J-1-1': { homeScore: 2, awayScore: 1 }, // ALG vs JOR
-  'g-J-2-0': { homeScore: null, awayScore: null }, // JOR vs ARG
-  'g-J-2-1': { homeScore: null, awayScore: null }, // ALG vs AUT
+  'g-J-2-0': { homeScore: 1, awayScore: 3 }, // JOR vs ARG
+  'g-J-2-1': { homeScore: 3, awayScore: 3 }, // ALG vs AUT
 
   // Group K (POR, COL, UZB, COD)
-  'g-K-0-0': { homeScore: null, awayScore: null }, // POR vs COL
-  'g-K-0-1': { homeScore: null, awayScore: null }, // UZB vs COD
+  'g-K-0-0': { homeScore: 0, awayScore: 0 }, // POR vs COL
+  'g-K-0-1': { homeScore: 1, awayScore: 3 }, // UZB vs COD
   'g-K-1-0': { homeScore: 5, awayScore: 0 }, // POR vs UZB
   'g-K-1-1': { homeScore: 1, awayScore: 0 }, // COL vs COD
   'g-K-2-0': { homeScore: 1, awayScore: 1 }, // COD vs POR
@@ -95,8 +95,8 @@ const HARDCODED_MATCH_SCORES = {
   // Group L (ENG, GHA, PAN, CRO)
   'g-L-0-0': { homeScore: 0, awayScore: 0 }, // ENG vs GHA
   'g-L-0-1': { homeScore: 0, awayScore: 1 }, // PAN vs CRO
-  'g-L-1-0': { homeScore: null, awayScore: null }, // ENG vs PAN
-  'g-L-1-1': { homeScore: null, awayScore: null }, // GHA vs CRO
+  'g-L-1-0': { homeScore: 2, awayScore: 0 }, // ENG vs PAN
+  'g-L-1-1': { homeScore: 1, awayScore: 2 }, // GHA vs CRO
   'g-L-2-0': { homeScore: 4, awayScore: 2 }, // ENG vs CRO
   'g-L-2-1': { homeScore: 1, awayScore: 0 }, // GHA vs PAN
 };
