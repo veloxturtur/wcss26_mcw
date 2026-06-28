@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'wcSweepstake_v2';
 
-const DATA_VERSION = 10; // Bumped to 10 to auto-wipe calculation cache
+const DATA_VERSION = 9; // Bumped to 9 to auto-wipe browser cache
 
 
 
@@ -144,6 +144,7 @@ const STAGE_ORDER = ['group', 'r32', 'r16', 'qf', 'sf', 'final'];
 
 
 
+// UPGRADE: Merges existing matches AND force-injects missing knockout matches into memory!
 function getEffectiveMatches(rawMatches, manualScores = {}) {
   const existingIds = new Set((rawMatches || []).map(m => m.id));
   
@@ -172,6 +173,7 @@ function getEffectiveMatches(rawMatches, manualScores = {}) {
     return { ...m, home, away, homeScore: hs, awayScore: as };
   });
 
+  // AUTO-INJECTOR: Creates knockout match objects if fixtures.js forgot them!
   if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
     for (const [id, hard] of Object.entries(HARDCODED_MATCH_SCORES)) {
       if (!existingIds.has(id)) {
@@ -196,7 +198,7 @@ function getEffectiveMatches(rawMatches, manualScores = {}) {
         merged.push({
           id,
           stage: stg,
-          date: hard.date || '2026-06-28T16:00',
+          date: hard.date || '2026-06-28',
           home: hard.home || 'TBD',
           away: hard.away || 'TBD',
           homeScore: hs,
@@ -536,6 +538,10 @@ function getKnockoutReach(matches, knockoutTeams) {
 
     const stage = m.stage;
 
+    if (m.home) reach[m.home] = maxStage(reach[m.home], stage);
+
+    if (m.away) reach[m.away] = maxStage(reach[m.away], stage);
+
     if (m.homeScore == null || m.awayScore == null || m.homeScore === m.awayScore) continue;
     const hs = Number(m.homeScore);
     const as = Number(m.awayScore);
@@ -552,8 +558,9 @@ function getKnockoutReach(matches, knockoutTeams) {
 
     } else {
 
-      // FIX: Strictly records the match stage they WON (Winning R32 = 'r32' = 2 pts)
-      if (winner) reach[winner] = maxStage(reach[winner], stage);
+      const next = nextStage(stage);
+
+      if (next && winner) reach[winner] = maxStage(reach[winner], next);
 
     }
 
@@ -571,8 +578,7 @@ function maxStage(a, b) {
 
   if (!b) return a;
 
-  // Ordered strictly from lowest point value to highest point value
-  const order = ['group', 'r32', 'r16', 'qf', 'sf', 'runnerUp', 'final'];
+  const order = [...STAGE_ORDER, 'runnerUp'];
 
   return order.indexOf(a) >= order.indexOf(b) ? a : b;
 
@@ -751,3 +757,327 @@ function updateLeaderboardSnapshots(state) {
   const board = buildLeaderboardRows(state);
 
   const movement = {};
+
+  for (const row of board) {
+
+    movement[row.player] = computeRankMovement(row, state.lastLeaderboard);
+
+  }
+
+  state.rankMovement = movement;
+
+  state.lastLeaderboard = board.map((r) => ({
+
+    player: r.player,
+
+    rank: r.rank,
+
+    points: r.points,
+
+  }));
+
+  return state;
+
+}
+
+
+
+function getLeaderboard(state) {
+
+  return buildLeaderboardRows(state).map((row) => ({
+
+    ...row,
+
+    movement:
+
+      state.rankMovement?.[row.player] ||
+
+      computeRankMovement(row, state.lastLeaderboard),
+
+  }));
+
+}
+
+
+
+function getTeamStats(state, code) {
+
+  const teamPts = calculateTeamPoints(state);
+
+  const { tables, bonuses } = buildGroupStandings(state.matches);
+
+  const reach = getKnockoutReach(state.matches, state.knockoutTeams);
+
+  const groupRow = Object.entries(tables).find(([, teams]) =>
+
+    teams.some((t) => t.code === code)
+
+  );
+
+  const gs = groupRow?.[1]?.find((t) => t.code === code);
+
+  const posIdx = groupRow ? groupRow[1].findIndex((t) => t.code === code) : -1;
+
+  const groupPts = gs?.pts ?? 0;
+
+  const groupBonus = bonuses[code] || 0;
+
+  const knockoutPts = knockoutPointsForStage(reach[code] || '');
+
+  const matchPts = (teamPts[code] || 0) - groupBonus - knockoutPts;
+
+
+
+  return {
+
+    code,
+
+    team: getTeamByCode(code),
+
+    totalPoints: teamPts[code] || 0,
+
+    matchPoints: Math.max(0, matchPts),
+
+    groupBonus,
+
+    knockoutPoints: knockoutPts,
+
+    knockoutStage: reach[code] || null,
+
+    played: countTeamMatchesPlayed(state, code),
+
+    w: gs?.w ?? 0,
+
+    d: gs?.d ?? 0,
+
+    l: gs?.l ?? 0,
+
+    gd: gs?.gd ?? 0,
+
+    group: groupRow?.[0] ?? '—',
+
+    groupPosition: posIdx >= 0 ? posIdx + 1 : null,
+
+    groupPts,
+
+  };
+
+}
+
+
+
+function getPlayerProfile(state, playerName) {
+
+  const player = getPlayers(state).find(
+
+    (p) => p.name.toLowerCase() === playerName.toLowerCase()
+
+  );
+
+  if (!player) return null;
+
+  const board = getLeaderboard(state);
+
+  const row = board.find((r) => r.player === player.name);
+
+  const teams = (player.teamCodes || []).map((code) => getTeamStats(state, code));
+
+  return {
+
+    name: player.name,
+
+    rank: row?.rank ?? '—',
+
+    totalPoints: row?.points ?? 0,
+
+    gamesPlayed: row?.gamesPlayed ?? 0,
+
+    movement: row?.movement,
+
+    teams,
+
+  };
+
+}
+
+
+
+function categorizeMatches(state) {
+
+  const today = getLocalDateString();
+
+  const buckets = { today: [], live: [], upcoming: [], completed: [] };
+
+
+
+  for (const m of state.matches) {
+
+    if (!m.home && !m.away) continue;
+
+    const played = matchPlayed(m);
+
+    const entry = { ...m, played };
+
+    const matchDay = matchLocalDate(m);
+
+
+
+    if (played) {
+
+      buckets.completed.push(entry);
+
+    } else if (matchDay > today) {
+
+      buckets.upcoming.push(entry);
+
+    } else if (matchDay === today) {
+
+      buckets.today.push(entry);
+
+      buckets.live.push(entry);
+
+    } else {
+
+      buckets.upcoming.push(entry);
+
+    }
+
+  }
+
+
+
+  const byDate = (a, b) =>
+
+    matchLocalDate(a).localeCompare(matchLocalDate(b)) ||
+
+    (a.kickoff || '').localeCompare(b.kickoff || '') ||
+
+    (a.matchNum || 0) - (b.matchNum || 0);
+
+  buckets.completed.sort((a, b) => matchLocalDate(b).localeCompare(matchLocalDate(a)));
+
+  buckets.today.sort(byDate);
+
+  buckets.live.sort(byDate);
+
+  buckets.upcoming.sort(byDate);
+
+  return buckets;
+
+}
+
+
+
+function getTeamRankings(state) {
+
+  const teamPts = calculateTeamPoints(state);
+
+  const { tables } = buildGroupStandings(state.matches);
+
+  const groupByTeam = {};
+
+  Object.entries(tables).forEach(([g, teams]) => {
+
+    teams.forEach((t, idx) => {
+
+      groupByTeam[t.code] = { group: g, position: idx + 1, ...t };
+
+    });
+
+  });
+
+
+
+  return getAllTournamentTeamCodes()
+
+    .map((code) => {
+
+      const team = getTeamByCode(code);
+
+      const gs = groupByTeam[code];
+
+      return {
+
+        code,
+
+        team,
+
+        points: teamPts[code] || 0,
+
+        played: gs?.played ?? 0,
+
+        w: gs?.w ?? 0,
+
+        d: gs?.d ?? 0,
+
+        l: gs?.l ?? 0,
+
+        gd: gs?.gd ?? 0,
+
+        group: gs?.group ?? '—',
+
+        groupPts: gs?.pts ?? 0,
+
+      };
+
+    })
+
+    .sort((a, b) => b.points - a.points || b.gd - a.gd);
+
+}
+
+
+
+function updateMatches(state, date, formMatches) {
+
+  const byId = Object.fromEntries(formMatches.map((m) => [m.id, m]));
+
+  state.matches = state.matches.map((m) => {
+
+    if (m.date !== date) return m;
+
+    const upd = byId[m.id];
+
+    if (!upd) return m;
+
+    return {
+
+      ...m,
+
+      homeScore: upd.homeScore === '' ? null : Number(upd.homeScore),
+
+      awayScore: upd.awayScore === '' ? null : Number(upd.awayScore),
+
+      home: upd.home ?? m.home,
+
+      away: upd.away ?? m.away,
+
+    };
+
+  });
+
+  saveState(state);
+
+  return state;
+
+}
+
+
+
+function saveKnockoutProgress(state, knockoutTeams) {
+
+  state.knockoutTeams = knockoutTeams;
+
+  saveState(state);
+
+  return state;
+
+}
+
+
+
+function getMatchDatesFromState(state) {
+
+  return getMatchDates(state.matches);
+
+}
