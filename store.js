@@ -112,7 +112,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r32-4': { stage: 'r32', date: '2026-06-29T19:00', home: 'FRA', away: 'SWE', homeScore: null, awayScore: null },
   'ko-r32-5': { stage: 'r32', date: '2026-06-29T22:00', home: 'BEL', away: 'SEN', homeScore: null, awayScore: null },
   'ko-r32-6': { stage: 'r32', date: '2026-06-30T16:00', home: 'USA', away: 'BIH', homeScore: null, awayScore: null },
-  'ko-r32-7': { stage: 'r32', date: '2026-06-30T19:00', home: 'ESP', away: 'AUS', homeScore: null, awayScore: null },
+  'ko-r32-7': { stage: 'r32', date: '2026-06-30T19:00', home: 'ESP', away: 'AUT', homeScore: null, awayScore: null },
   'ko-r32-8': { stage: 'r32', date: '2026-06-30T22:00', home: 'POR', away: 'CRO', homeScore: null, awayScore: null },
   'ko-r32-9': { stage: 'r32', date: '2026-07-01T16:00', home: 'BRA', away: 'JPN', homeScore: 2, awayScore: 1 },
   'ko-r32-10': { stage: 'r32', date: '2026-07-01T19:00', home: 'CIV', away: 'NOR', homeScore: 1, awayScore: 2 },
