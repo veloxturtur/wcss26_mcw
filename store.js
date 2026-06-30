@@ -2,22 +2,39 @@ const STORAGE_KEY = 'wcSweepstake_v2';
 const DATA_VERSION = 12; // Bumped to clear cache for manual overrides
 
 const HARD_CODED_PLAYER_INPUT = [
+
  { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
+
  { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
+
  { name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] },
+
  { name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] },
+
  { name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
+
  { name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] },
+
  { name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
+
  { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
+
  { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
+
  { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
+
  { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
+
  { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
+
  { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
+
  { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
+
  { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
+
 ];
+
 function normalizeTeamNameInput(s) {
   if (s == null) return '';
   return String(s).normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
