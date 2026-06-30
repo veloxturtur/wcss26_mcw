@@ -112,10 +112,10 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r32-4': { stage: 'r32', date: '2026-06-29T19:00', home: 'FRA', away: 'SWE', homeScore: null, awayScore: null },
   'ko-r32-5': { stage: 'r32', date: '2026-06-29T22:00', home: 'BEL', away: 'SEN', homeScore: null, awayScore: null },
   'ko-r32-6': { stage: 'r32', date: '2026-06-30T16:00', home: 'USA', away: 'BIH', homeScore: null, awayScore: null },
-  'ko-r32-7': { stage: 'r32', date: '2026-06-30T19:00', home: 'ESP', away: 'AUS', homeScore: null, awayScore: null },
+  'ko-r32-7': { stage: 'r32', date: '2026-06-30T19:00', home: 'ESP', away: 'AUT', homeScore: null, awayScore: null },
   'ko-r32-8': { stage: 'r32', date: '2026-06-30T22:00', home: 'POR', away: 'CRO', homeScore: null, awayScore: null },
   'ko-r32-9': { stage: 'r32', date: '2026-07-01T16:00', home: 'BRA', away: 'JPN', homeScore: 2, awayScore: 1 },
-  'ko-r32-10': { stage: 'r32', date: '2026-07-01T19:00', home: 'CIV', away: 'NOR', homeScore: null, awayScore: null },
+  'ko-r32-10': { stage: 'r32', date: '2026-07-01T19:00', home: 'CIV', away: 'NOR', homeScore: 1, awayScore: 2 },
   'ko-r32-11': { stage: 'r32', date: '2026-07-01T22:00', home: 'MEX', away: 'ECU', homeScore: null, awayScore: null },
   'ko-r32-12': { stage: 'r32', date: '2026-07-02T16:00', home: 'ENG', away: 'COD', homeScore: null, awayScore: null },
   'ko-r32-13': { stage: 'r32', date: '2026-07-02T19:00', home: 'SUI', away: 'ALG', homeScore: null, awayScore: null },
@@ -149,3 +149,49 @@ const HARDCODED_MATCH_SCORES = {
 
 // Set this to true to use hardcoded scores, false to use API data
 const USE_HARDCODED_SCORES = true;
+
+// ==========================================
+// MANUAL KNOCKOUT POINT OVERRIDES
+// Force the leaderboard to give a team points for reaching a specific stage.
+// Stages: 'r32', 'r16', 'qf', 'sf', 'runnerUp', 'final'
+//
+// HOW TO USE THIS:
+// - To award points, remove the "//" from the start of the line.
+// - To upgrade a team, change 'r32' to 'r16', 'qf', etc.
+// - Make sure every active line ends with a comma!
+// ==========================================
+
+const MANUAL_KNOCKOUT_OVERRIDES = {
+ 'RSA': 'r32',
+ 'CAN': 'r16',
+  // 'MEX': 'r32',
+  // 'SUI': 'r32',
+ 'BRA': 'r16',
+ 'JPN': 'r32',
+  // 'USA': 'r32',
+ 'MAR': 'r16',
+ 'GER': 'r32',
+  // 'AUS': 'r32',
+ 'NED': 'r32',
+ 'CIV': 'r32',
+  // 'BEL': 'r32',
+  // 'SWE': 'r32',
+  // 'ESP': 'r32',
+  // 'EGY': 'r32',
+  // 'FRA': 'r32',
+  // 'CPV': 'r32',
+  // 'ARG': 'r32',
+ 'NOR': 'r16',
+  // 'POR': 'r32',
+  // 'ALG': 'r32',
+  // 'ENG': 'r32',
+  // 'COL': 'r32',
+  // 'SEN': 'r32',
+  // 'AUT': 'r32',
+  // 'URU': 'r32',
+  // 'SCO': 'r32',
+  // 'KOR': 'r32',
+ 'PAR': 'r16',
+  // 'CRO': 'r32',
+  // 'TUN': 'r32'
+};
