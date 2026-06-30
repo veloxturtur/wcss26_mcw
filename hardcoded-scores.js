@@ -106,9 +106,9 @@ const HARDCODED_MATCH_SCORES = {
   // ==========================================
 
   // Round of 32 (June 28 – July 3, 2026)
-  'ko-r32-1': { stage: 'r32', date: '2026-06-28T16:00', home: 'CAN', away: 'RSA', homeScore: 1, awayScore: 0 },
-  'ko-r32-2': { stage: 'r32', date: '2026-06-28T19:00', home: 'NED', away: 'MAR', homeScore: null, awayScore: null },
-  'ko-r32-3': { stage: 'r32', date: '2026-06-29T16:00', home: 'GER', away: 'PAR', homeScore: null, awayScore: null },
+  'ko-r32-1': { stage: 'r32', home: 'CAN', away: 'RSA', homeScore: 1, awayScore: 0 },
+  'ko-r32-2': { stage: 'r32', home: 'NED', away: 'MAR', homeScore: 1, awayScore: 1, homePen: 2, awayPen: 3 },
+  'ko-r32-3': { stage: 'r32', home: 'GER', away: 'PAR', homeScore: 1, awayScore: 1, homePen: 3, awayPen: 4 },
   'ko-r32-4': { stage: 'r32', date: '2026-06-29T19:00', home: 'FRA', away: 'SWE', homeScore: null, awayScore: null },
   'ko-r32-5': { stage: 'r32', date: '2026-06-29T22:00', home: 'BEL', away: 'SEN', homeScore: null, awayScore: null },
   'ko-r32-6': { stage: 'r32', date: '2026-06-30T16:00', home: 'USA', away: 'BIH', homeScore: null, awayScore: null },
@@ -124,8 +124,8 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r32-16': { stage: 'r32', home: 'ARG', away: 'CPV', homeScore: null, awayScore: null },
 
   // Round of 16 (July 4 – July 7, 2026)
-  'ko-r16-1': { stage: 'r16', date: '2026-07-04T19:00', home: 'CAN', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-2': { stage: 'r16', date: '2026-07-04T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
+  'ko-r16-1': { stage: 'r16', date: '2026-07-04T19:00', home: 'CAN', away: 'MAR', homeScore: 1, awayScore: 0 },
+  'ko-r16-2': { stage: 'r16', date: '2026-07-04T22:00', home: 'PAR', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-3': { stage: 'r16', date: '2026-07-05T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-4': { stage: 'r16', date: '2026-07-05T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-5': { stage: 'r16', date: '2026-07-06T19:00', home: 'BRA', away: 'TBD', homeScore: null, awayScore: null },
@@ -134,7 +134,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
 
   // Quarterfinals (July 9 – July 10, 2026)
-  'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
+  'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'CAN', away: 'TBD', homeScore: null, awayScore: null },
   'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-qf-3': { stage: 'qf', date: '2026-07-10T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-qf-4': { stage: 'qf', date: '2026-07-10T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
