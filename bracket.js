@@ -20,22 +20,24 @@ function renderBracketTeam(m, side) {
 function renderBracketMatch(m) {
   const home = renderBracketTeam(m, 'home');
   const away = renderBracketTeam(m, 'away');
-  const score =
-    matchPlayed(m) && m.homeScore != null
-      ? `<div class="bracket-score">${m.homeScore} – ${m.awayScore}</div>`
-      : '';
-  const winner =
-    matchPlayed(m) && m.homeScore !== m.awayScore
-      ? m.homeScore > m.awayScore
-        ? m.home
-        : m.away
-      : null;
+  
+  let score = '';
+  if (matchPlayed(m) && m.homeScore != null) {
+    // If it went to penalties, draw the penalty scores in brackets!
+    if (m.homePen != null && m.awayPen != null) {
+      score = `<div class="bracket-score"><span style="color:#888; font-size:0.85em;">(${m.homePen})</span> ${m.homeScore} – ${m.awayScore} <span style="color:#888; font-size:0.85em;">(${m.awayPen})</span></div>`;
+    } else {
+      score = `<div class="bracket-score">${m.homeScore} – ${m.awayScore}</div>`;
+    }
+  }
 
-  let dateStr = '';
-  try {
-    dateStr = typeof formatMatchDateTime === 'function' ? formatMatchDateTime(m) : (m.date || '');
-  } catch {
-    dateStr = m.date || '';
+  let winner = null;
+  if (matchPlayed(m) && m.homeScore != null && m.awayScore != null) {
+    if (m.homeScore !== m.awayScore) {
+      winner = m.homeScore > m.awayScore ? m.home : m.away;
+    } else if (m.homePen != null && m.awayPen != null) {
+      winner = m.homePen > m.awayPen ? m.home : m.away;
+    }
   }
 
   return `
@@ -43,8 +45,7 @@ function renderBracketMatch(m) {
       <div class="bracket-team ${winner === m.home ? 'bracket-winner' : ''}">${home}</div>
       ${score}
       <div class="bracket-team ${winner === m.away ? 'bracket-winner' : ''}">${away}</div>
-      <div class="bracket-date">${dateStr}</div>
-    </div>`;
+      <div class="bracket-date"></div> </div>`;
 }
 
 function renderBracket() {
@@ -66,6 +67,8 @@ function renderBracket() {
         const man = state.manualScores?.[id] || {};
         const hs = man.homeScore !== undefined ? man.homeScore : data.homeScore;
         const as = man.awayScore !== undefined ? man.awayScore : data.awayScore;
+        const hPen = data.homePen !== undefined ? data.homePen : null;
+        const aPen = data.awayPen !== undefined ? data.awayPen : null;
 
         customKnockout.push({
           id,
@@ -76,14 +79,14 @@ function renderBracket() {
           awaySlot: data.awaySlot || null,
           homeScore: hs,
           awayScore: as,
-          date: data.date || '2026-06-28',
+          homePen: hPen,
+          awayPen: aPen,
           matchNum: parseInt(id.replace(/\D/g, ''), 10) || 0
         });
       }
     }
   }
 
-  // Strictly isolates your custom bracket and drops the duplicate API one
   const knockout = customKnockout.length > 0 
     ? customKnockout 
     : state.matches.filter((m) => m.stage !== 'group');
@@ -116,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderNav('bracket');
   renderBracket();
   
-  // Only let the live API auto-sync if you aren't using hardcoded custom scores!
   if (typeof HARDCODED_MATCH_SCORES === 'undefined') {
     startAutoSync();
     document.addEventListener('wc-sync-complete', renderBracket);
