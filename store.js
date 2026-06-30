@@ -1,197 +1,560 @@
-// HARDCODED MATCH SCORES
-// Edit scores here to update all leaderboards
-// Format: 'MATCH_ID': { homeScore: X, awayScore: Y }
-// Leave empty or null to use API data (if available)
+const STORAGE_KEY = 'wcSweepstake_v2';
+const DATA_VERSION = 12; // Bumped to clear cache for manual overrides
 
-const HARDCODED_MATCH_SCORES = {
-  // Group A (MEX, RSA, KOR, CZE)
-  'g-A-0-0': { homeScore: 2, awayScore: 0 }, // MEX vs RSA
-  'g-A-0-1': { homeScore: 2, awayScore: 1 }, // KOR vs CZE
-  'g-A-1-0': { homeScore: 1, awayScore: 0 }, // MEX vs KOR
-  'g-A-1-1': { homeScore: 1, awayScore: 1 }, // RSA vs CZE
-  'g-A-2-0': { homeScore: 3, awayScore: 0 }, // MEX vs CZE
-  'g-A-2-1': { homeScore: 1, awayScore: 0 }, // RSA vs KOR
+const HARD_CODED_PLAYER_INPUT = [
+ { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
+ { name: 'Hien', teams: ['Qatar', 'Australia', 'Morocco'] },
+ { name: 'Murdoch', teams: ['Uzbekistan', 'Norway', 'France'] },
+ { name: 'Lien', teams: ['Paraguay', 'Panama', 'Netherlands'] },
+ { name: 'Colin', teams: ['Iraq', 'Türkiye', 'Portugal'] },
+ { name: 'Angus', teams: ['Cabo Verde', 'Austria', 'Brazil'] },
+ { name: 'Teresa', teams: ['Saudi Arabia', 'Algeria', 'USA'] },
+ { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
+ { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
+ { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
+ { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
+ { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
+ { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
+ { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
+ { name: 'Kevin', teams: ['South Korea', 'Japan', 'Belgium'] },
+];
 
-  // Group B (CAN, BIH, QAT, SUI)
-  'g-B-0-0': { homeScore: 6, awayScore: 0 }, // CAN vs QAT
-  'g-B-0-1': { homeScore: 4, awayScore: 1 }, // SUI vs BIH
-  'g-B-1-0': { homeScore: 1, awayScore: 2 }, // CAN vs SUI
-  'g-B-1-1': { homeScore: 1, awayScore: 3 }, // QAT vs BIH
-  'g-B-2-0': { homeScore: 1, awayScore: 1 }, // CAN vs BIH
-  'g-B-2-1': { homeScore: 1, awayScore: 1 }, // QAT vs SUI
+function normalizeTeamNameInput(s) {
+  if (s == null) return '';
+  return String(s).normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+}
 
-  // Group C (BRA, MAR, HTI, SCO)
-  'g-C-0-0': { homeScore: 1, awayScore: 1 }, // BRA vs MAR
-  'g-C-0-1': { homeScore: 1, awayScore: 0 }, // HTI vs SCO
-  'g-C-1-0': { homeScore: 3, awayScore: 0 }, // BRA vs HTI
-  'g-C-1-1': { homeScore: 1, awayScore: 0 }, // MAR vs SCO
-  'g-C-2-0': { homeScore: 3, awayScore: 0 }, // BRA vs SCO
-  'g-C-2-1': { homeScore: 4, awayScore: 2 }, // MAR vs HTI
+const FULL_NAME_TO_TEAM_CODE = (() => {
+  const idx = {};
+  if (typeof ALL_TEAMS === 'undefined') return idx;
+  for (const t of ALL_TEAMS) idx[normalizeTeamNameInput(t.name)] = t.code;
+  return idx;
+})();
 
-  // Group D (USA, PAR, AUS, TUR)
-  'g-D-0-0': { homeScore: 4, awayScore: 1 }, // USA vs PAR
-  'g-D-0-1': { homeScore: 2, awayScore: 0 }, // AUS vs TUR
-  'g-D-1-0': { homeScore: 2, awayScore: 0 }, // USA vs AUS
-  'g-D-1-1': { homeScore: 1, awayScore: 0 }, // PAR vs TUR
-  'g-D-2-0': { homeScore: 2, awayScore: 3 }, // USA vs TUR
-  'g-D-2-1': { homeScore: 0, awayScore: 0 }, // PAR vs AUS
+function fullTeamNameToCode(fullName) {
+  if (!fullName) return null;
+  return FULL_NAME_TO_TEAM_CODE[normalizeTeamNameInput(fullName)] || null;
+}
 
-  // Group E (GER, CUW, CIV, ECU)
-  'g-E-0-0': { homeScore: 7, awayScore: 1 }, // GER vs CUW
-  'g-E-0-1': { homeScore: 1, awayScore: 0 }, // CIV vs ECU
-  'g-E-1-0': { homeScore: 2, awayScore: 1 }, // GER vs CIV
-  'g-E-1-1': { homeScore: 0, awayScore: 0 }, // CUW vs ECU
-  'g-E-2-0': { homeScore: 1, awayScore: 2 }, // GER vs ECU
-  'g-E-2-1': { homeScore: 0, awayScore: 2 }, // CUW vs CIV
+const HARD_CODED_PLAYERS = HARD_CODED_PLAYER_INPUT.map((p, idx) => {
+  const name = (p && p.name) ? String(p.name).trim() : `Player ${idx + 1}`;
+  const rawTeams = Array.isArray(p?.teams) ? p.teams : [];
+  const codes = rawTeams
+    .map((t) => {
+      if (!t) return null;
+      const s = String(t).trim();
+      const byName = fullTeamNameToCode(s);
+      if (byName) return byName;
+      if (/^[A-Za-z]{3}$/.test(s)) {
+        console.warn(`Team "${s}" for player "${name}" was not found.`);
+      }
+      return null;
+    })
+    .filter(Boolean);
+  return { name, teamCodes: codes };
+});
 
-  // Group F (NED, JPN, TUN, SWE)
-  'g-F-0-0': { homeScore: 2, awayScore: 2 }, // NED vs JPN
-  'g-F-0-1': { homeScore: 1, awayScore: 5 }, // TUN vs SWE
-  'g-F-1-0': { homeScore: 3, awayScore: 1 }, // NED vs TUN
-  'g-F-1-1': { homeScore: 1, awayScore: 1 }, // JPN vs SWE
-  'g-F-2-0': { homeScore: 5, awayScore: 1 }, // NED vs SWE
-  'g-F-2-1': { homeScore: 4, awayScore: 0 }, // JPN vs TUN
-
-  // Group G (BEL, EGY, IRN, NZL)
-  'g-G-0-0': { homeScore: 1, awayScore: 1 }, // BEL vs EGY
-  'g-G-0-1': { homeScore: 2, awayScore: 2 }, // IRN vs NZL
-  'g-G-1-0': { homeScore: 0, awayScore: 0 }, // BEL vs IRN
-  'g-G-1-1': { homeScore: 3, awayScore: 1 }, // EGY vs NZL
-  'g-G-2-0': { homeScore: 5, awayScore: 1 }, // BEL vs NZL
-  'g-G-2-1': { homeScore: 1, awayScore: 1 }, // EGY vs IRN
-
-  // Group H (ESP, CPV, KSA, URU)
-  'g-H-0-0': { homeScore: 0, awayScore: 0 }, // ESP vs CPV
-  'g-H-0-1': { homeScore: 1, awayScore: 1 }, // KSA vs URU
-  'g-H-1-0': { homeScore: 4, awayScore: 0 }, // ESP vs KSA
-  'g-H-1-1': { homeScore: 2, awayScore: 2 }, // CPV vs URU
-  'g-H-2-0': { homeScore: 1, awayScore: 0 }, // ESP vs URU
-  'g-H-2-1': { homeScore: 0, awayScore: 0 }, // CPV vs KSA
-
-  // Group I (FRA, SEN, NOR, IRQ)
-  'g-I-0-0': { homeScore: 3, awayScore: 1 }, // FRA vs SEN
-  'g-I-0-1': { homeScore: 4, awayScore: 1 }, // NOR vs IRQ
-  'g-I-1-0': { homeScore: 4, awayScore: 1 }, // FRA vs NOR
-  'g-I-1-1': { homeScore: 5, awayScore: 0 }, // SEN vs IRQ
-  'g-I-2-0': { homeScore: 3, awayScore: 0 }, // FRA vs IRQ
-  'g-I-2-1': { homeScore: 2, awayScore: 3 }, // SEN vs NOR
-
-  // Group J (ARG, ALG, AUT, JOR)
-  'g-J-0-0': { homeScore: 3, awayScore: 0 }, // ARG vs ALG
-  'g-J-0-1': { homeScore: 3, awayScore: 1 }, // AUT vs JOR
-  'g-J-1-0': { homeScore: 2, awayScore: 0 }, // ARG vs AUT
-  'g-J-1-1': { homeScore: 2, awayScore: 1 }, // ALG vs JOR
-  'g-J-2-0': { homeScore: 3, awayScore: 1 }, // ARG vs JOR
-  'g-J-2-1': { homeScore: 3, awayScore: 3 }, // ALG vs AUT
-
-  // Group K (POR, COL, UZB, COD)
-  'g-K-0-0': { homeScore: 0, awayScore: 0 }, // POR vs COL
-  'g-K-0-1': { homeScore: 1, awayScore: 3 }, // UZB vs COD
-  'g-K-1-0': { homeScore: 5, awayScore: 0 }, // POR vs UZB
-  'g-K-1-1': { homeScore: 1, awayScore: 0 }, // COL vs COD
-  'g-K-2-0': { homeScore: 1, awayScore: 1 }, // COD vs POR
-  'g-K-2-1': { homeScore: 3, awayScore: 1 }, // COL vs UZB
-
-  // Group L (ENG, GHA, PAN, CRO)
-  'g-L-0-0': { homeScore: 0, awayScore: 0 }, // ENG vs GHA
-  'g-L-0-1': { homeScore: 0, awayScore: 1 }, // PAN vs CRO
-  'g-L-1-0': { homeScore: 2, awayScore: 0 }, // ENG vs PAN
-  'g-L-1-1': { homeScore: 1, awayScore: 2 }, // GHA vs CRO
-  'g-L-2-0': { homeScore: 4, awayScore: 2 }, // ENG vs CRO
-  'g-L-2-1': { homeScore: 1, awayScore: 0 }, // GHA vs PAN
-
-  // ==========================================
-  // INJECTED KNOCKOUT MATCHES
-  // Configured with ISO 'T' date formatting so all web browsers can parse them!
-  // ==========================================
-
-  // Round of 32 (June 28 – July 3, 2026)
-  'ko-r32-1': { stage: 'r32', home: 'CAN', away: 'RSA', homeScore: 1, awayScore: 0 },
-  'ko-r32-2': { stage: 'r32', home: 'NED', away: 'MAR', homeScore: 1, awayScore: 1, homePen: 2, awayPen: 3 },
-  'ko-r32-3': { stage: 'r32', home: 'GER', away: 'PAR', homeScore: 1, awayScore: 1, homePen: 3, awayPen: 4 },
-  'ko-r32-4': { stage: 'r32', date: '2026-06-29T19:00', home: 'FRA', away: 'SWE', homeScore: null, awayScore: null },
-  'ko-r32-5': { stage: 'r32', date: '2026-06-29T22:00', home: 'BEL', away: 'SEN', homeScore: null, awayScore: null },
-  'ko-r32-6': { stage: 'r32', date: '2026-06-30T16:00', home: 'USA', away: 'BIH', homeScore: null, awayScore: null },
-  'ko-r32-7': { stage: 'r32', date: '2026-06-30T19:00', home: 'ESP', away: 'AUT', homeScore: null, awayScore: null },
-  'ko-r32-8': { stage: 'r32', date: '2026-06-30T22:00', home: 'POR', away: 'CRO', homeScore: null, awayScore: null },
-  'ko-r32-9': { stage: 'r32', date: '2026-07-01T16:00', home: 'BRA', away: 'JPN', homeScore: 2, awayScore: 1 },
-  'ko-r32-10': { stage: 'r32', date: '2026-07-01T19:00', home: 'CIV', away: 'NOR', homeScore: 1, awayScore: 2 },
-  'ko-r32-11': { stage: 'r32', date: '2026-07-01T22:00', home: 'MEX', away: 'ECU', homeScore: null, awayScore: null },
-  'ko-r32-12': { stage: 'r32', date: '2026-07-02T16:00', home: 'ENG', away: 'COD', homeScore: null, awayScore: null },
-  'ko-r32-13': { stage: 'r32', date: '2026-07-02T19:00', home: 'SUI', away: 'ALG', homeScore: null, awayScore: null },
-  'ko-r32-14': { stage: 'r32', date: '2026-07-02T22:00', home: 'COL', away: 'GHA', homeScore: null, awayScore: null },
-  'ko-r32-15': { stage: 'r32', date: '2026-07-03T16:00', home: 'AUS', away: 'EGY', homeScore: null, awayScore: null },
-  'ko-r32-16': { stage: 'r32', home: 'ARG', away: 'CPV', homeScore: null, awayScore: null },
-
-  // Round of 16 (July 4 – July 7, 2026)
-  'ko-r16-1': { stage: 'r16', date: '2026-07-04T19:00', home: 'CAN', away: 'MAR', homeScore: null, awayScore: null },
-  'ko-r16-2': { stage: 'r16', date: '2026-07-04T22:00', home: 'PAR', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-3': { stage: 'r16', date: '2026-07-05T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-4': { stage: 'r16', date: '2026-07-05T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-5': { stage: 'r16', date: '2026-07-06T19:00', home: 'BRA', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-6': { stage: 'r16', date: '2026-07-06T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-7': { stage: 'r16', date: '2026-07-07T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-
-  // Quarterfinals (July 9 – July 10, 2026)
-  'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-qf-3': { stage: 'qf', date: '2026-07-10T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-qf-4': { stage: 'qf', date: '2026-07-10T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-
-  // Semifinals (July 14 – July 15, 2026)
-  'ko-sf-1': { stage: 'sf', date: '2026-07-14T20:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-sf-2': { stage: 'sf', date: '2026-07-15T20:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-
-  // Grand Final (July 19, 2026)
-  'ko-final': { stage: 'final', date: '2026-07-19T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null }
+const KNOCKOUT_BONUS = {
+  r32: 2,
+  r16: 4,
+  qf: 6,
+  sf: 9,
+  final: 15,
+  runnerUp: 12,
 };
 
-// Set this to true to use hardcoded scores, false to use API data
-const USE_HARDCODED_SCORES = true;
+const STAGE_ORDER = ['group', 'r32', 'r16', 'qf', 'sf', 'final'];
 
-// ==========================================
-// MANUAL KNOCKOUT POINT OVERRIDES
-// Force the leaderboard to give a team points for reaching a specific stage.
-// Stages: 'r32', 'r16', 'qf', 'sf', 'runnerUp', 'final'
-//
-// HOW TO USE THIS:
-// - To award points, remove the "//" from the start of the line.
-// - To upgrade a team, change 'r32' to 'r16', 'qf', etc.
-// - Make sure every active line ends with a comma!
-// ==========================================
+function getEffectiveMatches(rawMatches, manualScores = {}) {
+  const existingIds = new Set((rawMatches || []).map(m => m.id));
+  
+  const merged = (rawMatches || []).map((m) => {
+    let home = m.home;
+    let away = m.away;
+    let hs = m.homeScore;
+    let as = m.awayScore;
+    let hPen = m.homePen;
+    let aPen = m.awayPen;
 
-const MANUAL_KNOCKOUT_OVERRIDES = {
- 'RSA': 'r32',
- 'CAN': 'r16',
-  // 'MEX': 'r32',
-  // 'SUI': 'r32',
- 'BRA': 'r16',
- 'JPN': 'r32',
-  // 'USA': 'r32',
- 'MAR': 'r16',
- 'GER': 'r32',
-  // 'AUS': 'r32',
- 'NED': 'r32',
- 'CIV': 'r32',
-  // 'BEL': 'r32',
-  // 'SWE': 'r32',
-  // 'ESP': 'r32',
-  // 'EGY': 'r32',
-  // 'FRA': 'r32',
-  // 'CPV': 'r32',
-  // 'ARG': 'r32',
- 'NOR': 'r16',
-  // 'POR': 'r32',
-  // 'ALG': 'r32',
-  // 'ENG': 'r32',
-  // 'COL': 'r32',
-  // 'SEN': 'r32',
-  // 'AUT': 'r32',
-  // 'URU': 'r32',
-  // 'SCO': 'r32',
-  // 'KOR': 'r32',
- 'PAR': 'r16',
-  // 'CRO': 'r32',
-  // 'TUN': 'r32'
-};
+    if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+      const hard = HARDCODED_MATCH_SCORES[m.id];
+      if (hard) {
+        if (hard.home !== undefined) home = hard.home;
+        if (hard.away !== undefined) away = hard.away;
+        if (hard.homeScore !== undefined) hs = hard.homeScore;
+        if (hard.awayScore !== undefined) as = hard.awayScore;
+        if (hard.homePen !== undefined) hPen = hard.homePen;
+        if (hard.awayPen !== undefined) aPen = hard.awayPen;
+      }
+    }
+
+    const man = manualScores[m.id];
+    if (man) {
+      if (man.homeScore !== undefined && man.homeScore !== null) hs = man.homeScore;
+      if (man.awayScore !== undefined && man.awayScore !== null) as = man.awayScore;
+    }
+
+    return { ...m, home, away, homeScore: hs, awayScore: as, homePen: hPen, awayPen: aPen };
+  });
+
+  if (typeof USE_HARDCODED_SCORES !== 'undefined' && USE_HARDCODED_SCORES && typeof HARDCODED_MATCH_SCORES !== 'undefined') {
+    for (const [id, hard] of Object.entries(HARDCODED_MATCH_SCORES)) {
+      if (!existingIds.has(id)) {
+        const man = manualScores[id];
+        let hs = hard.homeScore !== undefined ? hard.homeScore : null;
+        let as = hard.awayScore !== undefined ? hard.awayScore : null;
+        let hPen = hard.homePen !== undefined ? hard.homePen : null;
+        let aPen = hard.awayPen !== undefined ? hard.awayPen : null;
+        
+        if (man) {
+          if (man.homeScore !== undefined && man.homeScore !== null) hs = man.homeScore;
+          if (man.awayScore !== undefined && man.awayScore !== null) as = man.awayScore;
+        }
+
+        let stg = hard.stage;
+        if (!stg) {
+          if (id.includes('r32')) stg = 'r32';
+          else if (id.includes('r16')) stg = 'r16';
+          else if (id.includes('qf')) stg = 'qf';
+          else if (id.includes('sf')) stg = 'sf';
+          else if (id.includes('final') || id.includes('Final')) stg = 'final';
+          else stg = 'r32';
+        }
+
+        merged.push({
+          id,
+          stage: stg,
+          date: hard.date || '2026-06-28',
+          home: hard.home || 'TBD',
+          away: hard.away || 'TBD',
+          homeScore: hs,
+          awayScore: as,
+          homePen: hPen,
+          awayPen: aPen
+        });
+      }
+    }
+  }
+
+  return merged;
+}
+
+function defaultState() {
+  return {
+    setupComplete: true,
+    picksLocked: true,
+    picksLockedAt: null,
+    players: HARD_CODED_PLAYERS,
+    matches: getEffectiveMatches(generateDefaultMatches(), {}),
+    manualScores: {},
+    knockoutTeams: {},
+    lastSyncAt: null,
+    syncSource: null,
+    lastSyncCount: 0,
+    lastLeaderboard: [],
+    rankMovement: {},
+    dataVersion: DATA_VERSION,
+  };
+}
+
+function arePicksLocked(state) {
+  return !!(state?.picksLocked || state?.setupComplete);
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const needsRegeneration = parsed.dataVersion !== DATA_VERSION;
+      const rawMatches = needsRegeneration ? generateDefaultMatches() : (parsed.matches?.length ? parsed.matches : generateDefaultMatches());
+      const manualScores = needsRegeneration ? {} : (parsed.manualScores ?? {});
+
+      return {
+        setupComplete: true,
+        picksLocked: true,
+        picksLockedAt: parsed.picksLockedAt ?? null,
+        players: HARD_CODED_PLAYERS,
+        matches: getEffectiveMatches(rawMatches, manualScores),
+        manualScores,
+        knockoutTeams: needsRegeneration ? {} : (parsed.knockoutTeams ?? {}),
+        lastSyncAt: needsRegeneration ? null : (parsed.lastSyncAt ?? null),
+        syncSource: needsRegeneration ? null : (parsed.syncSource ?? null),
+        lastSyncCount: needsRegeneration ? 0 : (parsed.lastSyncCount ?? 0),
+        lastLeaderboard: needsRegeneration ? [] : (Array.isArray(parsed.lastLeaderboard) ? parsed.lastLeaderboard : []),
+        rankMovement: needsRegeneration ? {} : (parsed.rankMovement ?? {}),
+        dataVersion: DATA_VERSION,
+      };
+    }
+  } catch { }
+  return defaultState();
+}
+
+function saveState(state) {
+  const { players, ...rest } = state;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(rest));
+}
+
+function getPlayers(state) {
+  return state.players || [];
+}
+
+function getPlayerByTeamCode(state, code) {
+  const players = getPlayers(state);
+  for (const player of players) {
+    if (player.teamCodes && player.teamCodes.includes(code)) {
+      return player.name;
+    }
+  }
+  return null;
+}
+
+function matchPlayed(m) {
+  return m.homeScore != null && m.awayScore != null && m.homeScore !== '' && m.awayScore !== '';
+}
+
+function groupMatchPoints(homeScore, awayScore) {
+  if (homeScore == null || awayScore == null || homeScore === '' || awayScore === '') return { home: 0, away: 0 };
+  const hs = Number(homeScore);
+  const as = Number(awayScore);
+  if (hs > as) return { home: 3, away: 0 };
+  if (hs < as) return { home: 0, away: 3 };
+  return { home: 1, away: 1 };
+}
+
+function buildGroupStandings(matches) {
+  const groups = {};
+  const groupMatches = matches.filter((m) => m.stage === 'group' && matchPlayed(m));
+
+  for (const m of groupMatches) {
+    if (!groups[m.group]) groups[m.group] = {};
+    const register = (code) => {
+      if (!code) return;
+      if (!groups[m.group][code]) {
+        groups[m.group][code] = { code, pts: 0, gd: 0, gf: 0, played: 0, w: 0, d: 0, l: 0 };
+      }
+    };
+    register(m.home);
+    register(m.away);
+    const hs = Number(m.homeScore);
+    const as = Number(m.awayScore);
+    const { home: hp, away: ap } = groupMatchPoints(hs, as);
+
+    const h = groups[m.group][m.home];
+    const a = groups[m.group][m.away];
+    h.pts += hp;
+    h.gf += hs;
+    h.gd += hs - as;
+    h.played += 1;
+    a.pts += ap;
+    a.gf += as;
+    a.gd += as - hs;
+    a.played += 1;
+    if (hp === 3) { h.w += 1; a.l += 1; } 
+    else if (ap === 3) { a.w += 1; h.l += 1; } 
+    else { h.d += 1; a.d += 1; }
+  }
+
+  const bonuses = {};
+  const tables = {};
+  for (const group of Object.keys(groups)) {
+    const teams = Object.values(groups[group]).sort((x, y) => {
+      if (y.pts !== x.pts) return y.pts - x.pts;
+      if (y.gd !== x.gd) return y.gd - x.gd;
+      return y.gf - x.gf;
+    });
+    tables[group] = teams;
+    const allMatchesPlayed = teams.every(t => t.played === 3);
+    if (allMatchesPlayed) {
+      if (teams[0]) bonuses[teams[0].code] = (bonuses[teams[0].code] || 0) + 3;
+      if (teams[1]) bonuses[teams[1].code] = (bonuses[teams[1].code] || 0) + 1;
+    }
+  }
+  return { bonuses, tables };
+}
+
+function getKnockoutReach(matches, knockoutTeams) {
+  const reach = { ...knockoutTeams };
+  const knockoutMatches = matches
+    .filter((m) => m.stage !== 'group' && matchPlayed(m))
+    .sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
+
+  for (const m of knockoutMatches) {
+    const stage = m.stage;
+    if (m.homeScore == null || m.awayScore == null) continue;
+    
+    const hs = Number(m.homeScore);
+    const as = Number(m.awayScore);
+    let winner = null;
+    let loser = null;
+
+    if (hs > as) {
+      winner = m.home;
+      loser = m.away;
+    } else if (as > hs) {
+      winner = m.away;
+      loser = m.home;
+    } else {
+      if (m.homePen != null && m.awayPen != null) {
+        const hp = Number(m.homePen);
+        const ap = Number(m.awayPen);
+        winner = hp > ap ? m.home : m.away;
+        loser = hp > ap ? m.away : m.home;
+      } else {
+        continue; 
+      }
+    }
+
+    if (stage === 'final') {
+      reach[winner] = 'final';
+      reach[loser] = 'runnerUp';
+    } else {
+      if (winner) reach[winner] = maxStage(reach[winner], stage);
+    }
+  }
+
+  // FORCE APPLY ANY MANUAL OVERRIDES
+  if (typeof MANUAL_KNOCKOUT_OVERRIDES !== 'undefined') {
+    for (const [code, stage] of Object.entries(MANUAL_KNOCKOUT_OVERRIDES)) {
+      reach[code] = maxStage(reach[code] || 'group', stage);
+    }
+  }
+
+  return reach;
+}
+
+function maxStage(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  const order = ['group', 'r32', 'r16', 'qf', 'sf', 'runnerUp', 'final'];
+  return order.indexOf(a) >= order.indexOf(b) ? a : b;
+}
+
+function nextStage(stage) {
+  const i = STAGE_ORDER.indexOf(stage);
+  return i >= 0 && i < STAGE_ORDER.length - 1 ? STAGE_ORDER[i + 1] : null;
+}
+
+function knockoutPointsForStage(stage) {
+  if (stage === 'runnerUp') return KNOCKOUT_BONUS.runnerUp;
+  if (stage === 'final') return KNOCKOUT_BONUS.final;
+  return KNOCKOUT_BONUS[stage] || 0;
+}
+
+function calculateTeamPoints(state) {
+  const { matches, knockoutTeams } = state;
+  const points = {};
+  const init = (code) => { if (code && points[code] === undefined) points[code] = 0; };
+
+  for (const m of matches) {
+    if (m.stage !== 'group' || !matchPlayed(m)) continue;
+    init(m.home);
+    init(m.away);
+    const { home, away } = groupMatchPoints(m.homeScore, m.awayScore);
+    points[m.home] += home;
+    points[m.away] += away;
+  }
+
+  const { bonuses } = buildGroupStandings(matches);
+  for (const [code, bonus] of Object.entries(bonuses)) {
+    init(code);
+    points[code] += bonus;
+  }
+
+  const reach = getKnockoutReach(matches, knockoutTeams);
+  for (const [code, stage] of Object.entries(reach)) {
+    if (!code) continue;
+    init(code);
+    points[code] += knockoutPointsForStage(stage);
+  }
+  return points;
+}
+
+function countTeamMatchesPlayed(state, code) {
+  if (!code) return 0;
+  return state.matches.filter(
+    (m) => matchPlayed(m) && (m.home === code || m.away === code)
+  ).length;
+}
+
+function playerGamesPlayed(state, teamCodes) {
+  return (teamCodes || []).reduce((sum, c) => sum + countTeamMatchesPlayed(state, c), 0);
+}
+
+function computeRankMovement(row, prevSnapshot) {
+  const prev = (prevSnapshot || []).find((p) => p.player === row.player);
+  if (!prev) return { text: '—', class: 'move-new', title: 'New on leaderboard' };
+  const diff = prev.rank - row.rank;
+  if (diff > 0) return { text: `↑${diff}`, class: 'move-up', title: `Up ${diff} place${diff > 1 ? 's' : ''}` };
+  if (diff < 0) {
+    const n = Math.abs(diff);
+    return { text: `↓${n}`, class: 'move-down', title: `Down ${n} place${n > 1 ? 's' : ''}` };
+  }
+  return { text: '—', class: 'move-same', title: 'No change' };
+}
+
+function buildLeaderboardRows(state) {
+  const teamPts = calculateTeamPoints(state);
+  const rows = getPlayers(state).map((p) => {
+    const codes = p.teamCodes || [];
+    const totalPoints = codes.reduce((sum, c) => sum + (teamPts[c] || 0), 0);
+    const points = codes.length > 0 ? totalPoints / codes.length : 0;
+    return {
+      player: p.name,
+      teamCodes: codes,
+      points,
+      gamesPlayed: playerGamesPlayed(state, codes),
+    };
+  });
+  rows.sort((a, b) => b.points - a.points);
+  return rows.map((r, i) => ({ rank: i + 1, ...r }));
+}
+
+function updateLeaderboardSnapshots(state) {
+  const board = buildLeaderboardRows(state);
+  const movement = {};
+  for (const row of board) {
+    movement[row.player] = computeRankMovement(row, state.lastLeaderboard);
+  }
+  state.rankMovement = movement;
+  state.lastLeaderboard = board.map((r) => ({ player: r.player, rank: r.rank, points: r.points }));
+  return state;
+}
+
+function getLeaderboard(state) {
+  return buildLeaderboardRows(state).map((row) => ({
+    ...row,
+    movement: state.rankMovement?.[row.player] || computeRankMovement(row, state.lastLeaderboard),
+  }));
+}
+
+function getTeamStats(state, code) {
+  const teamPts = calculateTeamPoints(state);
+  const { tables, bonuses } = buildGroupStandings(state.matches);
+  const reach = getKnockoutReach(state.matches, state.knockoutTeams);
+  const groupRow = Object.entries(tables).find(([, teams]) => teams.some((t) => t.code === code));
+  const gs = groupRow?.[1]?.find((t) => t.code === code);
+  const posIdx = groupRow ? groupRow[1].findIndex((t) => t.code === code) : -1;
+  const groupPts = gs?.pts ?? 0;
+  const groupBonus = bonuses[code] || 0;
+  const knockoutPts = knockoutPointsForStage(reach[code] || '');
+  const matchPts = (teamPts[code] || 0) - groupBonus - knockoutPts;
+
+  return {
+    code,
+    team: getTeamByCode(code),
+    totalPoints: teamPts[code] || 0,
+    matchPoints: Math.max(0, matchPts),
+    groupBonus,
+    knockoutPoints: knockoutPts,
+    knockoutStage: reach[code] || null,
+    played: countTeamMatchesPlayed(state, code),
+    w: gs?.w ?? 0,
+    d: gs?.d ?? 0,
+    l: gs?.l ?? 0,
+    gd: gs?.gd ?? 0,
+    group: groupRow?.[0] ?? '—',
+    groupPosition: posIdx >= 0 ? posIdx + 1 : null,
+    groupPts,
+  };
+}
+
+function getPlayerProfile(state, playerName) {
+  const player = getPlayers(state).find((p) => p.name.toLowerCase() === playerName.toLowerCase());
+  if (!player) return null;
+  const board = getLeaderboard(state);
+  const row = board.find((r) => r.player === player.name);
+  const teams = (player.teamCodes || []).map((code) => getTeamStats(state, code));
+  return {
+    name: player.name,
+    rank: row?.rank ?? '—',
+    totalPoints: row?.points ?? 0,
+    gamesPlayed: row?.gamesPlayed ?? 0,
+    movement: row?.movement,
+    teams,
+  };
+}
+
+function categorizeMatches(state) {
+  const today = getLocalDateString();
+  const buckets = { today: [], live: [], upcoming: [], completed: [] };
+
+  for (const m of state.matches) {
+    if (!m.home && !m.away) continue;
+    const played = matchPlayed(m);
+    const entry = { ...m, played };
+    const matchDay = matchLocalDate(m);
+
+    if (played) { buckets.completed.push(entry); } 
+    else if (matchDay > today) { buckets.upcoming.push(entry); } 
+    else if (matchDay === today) { buckets.today.push(entry); buckets.live.push(entry); } 
+    else { buckets.upcoming.push(entry); }
+  }
+
+  const byDate = (a, b) =>
+    matchLocalDate(a).localeCompare(matchLocalDate(b)) ||
+    (a.kickoff || '').localeCompare(b.kickoff || '') ||
+    (a.matchNum || 0) - (b.matchNum || 0);
+  
+  buckets.completed.sort((a, b) => matchLocalDate(b).localeCompare(matchLocalDate(a)));
+  buckets.today.sort(byDate);
+  buckets.live.sort(byDate);
+  buckets.upcoming.sort(byDate);
+  return buckets;
+}
+
+function getTeamRankings(state) {
+  const teamPts = calculateTeamPoints(state);
+  const { tables } = buildGroupStandings(state.matches);
+  const groupByTeam = {};
+  Object.entries(tables).forEach(([g, teams]) => {
+    teams.forEach((t, idx) => { groupByTeam[t.code] = { group: g, position: idx + 1, ...t }; });
+  });
+
+  return getAllTournamentTeamCodes()
+    .map((code) => {
+      const team = getTeamByCode(code);
+      const gs = groupByTeam[code];
+      return {
+        code,
+        team,
+        points: teamPts[code] || 0,
+        played: gs?.played ?? 0,
+        w: gs?.w ?? 0,
+        d: gs?.d ?? 0,
+        l: gs?.l ?? 0,
+        gd: gs?.gd ?? 0,
+        group: gs?.group ?? '—',
+        groupPts: gs?.pts ?? 0,
+      };
+    })
+    .sort((a, b) => b.points - a.points || b.gd - a.gd);
+}
+
+function updateMatches(state, date, formMatches) {
+  const byId = Object.fromEntries(formMatches.map((m) => [m.id, m]));
+  state.matches = state.matches.map((m) => {
+    if (m.date !== date) return m;
+    const upd = byId[m.id];
+    if (!upd) return m;
+    return {
+      ...m,
+      homeScore: upd.homeScore === '' ? null : Number(upd.homeScore),
+      awayScore: upd.awayScore === '' ? null : Number(upd.awayScore),
+      home: upd.home ?? m.home,
+      away: upd.away ?? m.away,
+    };
+  });
+  saveState(state);
+  return state;
+}
+
+function saveKnockoutProgress(state, knockoutTeams) {
+  state.knockoutTeams = knockoutTeams;
+  saveState(state);
+  return state;
+}
+
+function getMatchDatesFromState(state) {
+  return getMatchDates(state.matches);
+}
