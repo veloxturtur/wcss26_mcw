@@ -125,11 +125,11 @@ const HARDCODED_MATCH_SCORES = {
 
   // Round of 16 (July 4 – July 7, 2026)
   'ko-r16-1': { stage: 'r16', date: '2026-07-04T19:00', home: 'CAN', away: 'MAR', homeScore: null, awayScore: null },
-  'ko-r16-2': { stage: 'r16', date: '2026-07-04T22:00', home: 'PAR', away: 'TBD', homeScore: null, awayScore: null },
+  'ko-r16-2': { stage: 'r16', date: '2026-07-04T22:00', home: 'PAR', away: 'FRA', homeScore: null, awayScore: null },
   'ko-r16-3': { stage: 'r16', date: '2026-07-05T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-4': { stage: 'r16', date: '2026-07-05T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-5': { stage: 'r16', date: '2026-07-06T19:00', home: 'BRA', away: 'TBD', homeScore: null, awayScore: null },
-  'ko-r16-6': { stage: 'r16', date: '2026-07-06T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
+  'ko-r16-5': { stage: 'r16', date: '2026-07-06T19:00', home: 'BRA', away: 'NOR', homeScore: null, awayScore: null },
+  'ko-r16-6': { stage: 'r16', date: '2026-07-06T22:00', home: 'MEX', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-7': { stage: 'r16', date: '2026-07-07T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
   'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
 
