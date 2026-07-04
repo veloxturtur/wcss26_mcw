@@ -120,7 +120,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r32-12': { stage: 'r32', date: '2026-07-02T16:00', home: 'ENG', away: 'COD', homeScore: 2, awayScore: 1 },
   'ko-r32-13': { stage: 'r32', date: '2026-07-02T19:00', home: 'SUI', away: 'ALG', homeScore: 2, awayScore: 0 },
   'ko-r32-14': { stage: 'r32', date: '2026-07-02T22:00', home: 'COL', away: 'GHA', homeScore: 1, awayScore: 0 },
-  'ko-r32-15': { stage: 'r32', date: '2026-07-03T16:00', home: 'AUS', away: 'EGY', homeScore: null, awayScore: null, homePen: 2, awayPen: 3 },
+  'ko-r32-15': { stage: 'r32', date: '2026-07-03T16:00', home: 'AUS', away: 'EGY', homeScore: 1, awayScore: 1, homePen: 2, awayPen: 4 },
   'ko-r32-16': { stage: 'r32', home: 'ARG', away: 'CPV', homeScore: 3, awayScore: 2 },
 
   // Round of 16 (July 4 – July 7, 2026)
@@ -131,7 +131,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r16-5': { stage: 'r16', date: '2026-07-06T19:00', home: 'BRA', away: 'NOR', homeScore: null, awayScore: null },
   'ko-r16-6': { stage: 'r16', date: '2026-07-06T22:00', home: 'MEX', away: 'ENG', homeScore: null, awayScore: null },
   'ko-r16-7': { stage: 'r16', date: '2026-07-07T19:00', home: 'SUI', away: 'COL', homeScore: null, awayScore: null },
-  'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'ARG', away: 'TBD', homeScore: null, awayScore: null },
+  'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'ARG', away: 'EGY', homeScore: null, awayScore: null },
 
   // Quarterfinals (July 9 – July 10, 2026)
   'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
@@ -168,7 +168,7 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'SUI': 'r16',
  'BRA': 'r16',
  'JPN': 'r32',
- 'USA': 'r32',
+ 'USA': 'qf',
  'MAR': 'r16',
  'GER': 'r32',
  'AUS': 'r32',
@@ -185,12 +185,12 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'POR': 'r16',
  'ALG': 'r32',
  'ENG': 'r16',
-  // 'COL': 'r32',
-  // 'SEN': 'r32',
+ 'COL': 'r16',
+ 'SEN': 'r32',
  'AUT': 'r32',
-  // 'URU': 'r32',
-  'COD': 'r32',
-  // 'KOR': 'r32',
+ 'BIH': 'r16',
+ 'COD': 'r32',
+ 'GHA': 'r32',
  'PAR': 'r16',
  'CRO': 'r32',
  'ECU': 'r32'
