@@ -313,13 +313,14 @@ function getKnockoutReach(matches, knockoutTeams) {
     }
   }
 
-  // FORCE APPLY ANY MANUAL OVERRIDES
+  // FIXED: Force apply manual overrides AFTER match calculations are done
   if (typeof MANUAL_KNOCKOUT_OVERRIDES !== 'undefined') {
     for (const [code, stage] of Object.entries(MANUAL_KNOCKOUT_OVERRIDES)) {
+      // Use maxStage to ensure we don't accidentally downgrade a team, 
+      // or simply use reach[code] = stage; if you want complete absolute manual control.
       reach[code] = maxStage(reach[code] || 'group', stage);
     }
   }
-
   return reach;
 }
 
