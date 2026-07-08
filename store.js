@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'wcSweepstake_v2';
-const DATA_VERSION = 12; // Bumped to clear cache for manual overrides
+const DATA_VERSION = 13; // Bumped to clear cache for manual overrides
 
 const HARD_CODED_PLAYER_INPUT = [
  { name: 'Paula', teams: ['Bosnia and Herzegovina', 'Senegal', 'England'] },
