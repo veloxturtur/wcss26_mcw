@@ -12,7 +12,6 @@ const HARD_CODED_PLAYER_INPUT = [
  { name: 'Jess', teams: ['Tunisia', 'Czechia', 'Spain'] },
  { name: 'Harry', teams: ['South Africa', 'Uruguay', 'Argentina'] },
  { name: 'Javier', teams: ['Scotland', 'Ecuador', 'Mexico'] },
- { name: 'Sharanja', teams: ['DR Congo', 'Sweden', 'Germany'] },
  { name: 'Farah', teams: ['Côte d\'Ivoire', 'Egypt', 'Switzerland'] },
  { name: 'Elisa', teams: ['Jordan', 'Canada', 'Colombia'] },
  { name: 'Christian', teams: ['Ghana', 'Iran', 'Croatia'] },
