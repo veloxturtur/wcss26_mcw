@@ -134,7 +134,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-r16-8': { stage: 'r16', date: '2026-07-07T22:00', home: 'ARG', away: 'EGY', homeScore: 3, awayScore: 2 },
 
   // Quarterfinals (July 9 – July 10, 2026)
-  'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'MAR', away: 'FRA', homeScore: null, awayScore: null },
+  'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'MAR', away: 'FRA', homeScore: 0, awayScore: 2 },
   'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'ESP', away: 'BEL', homeScore: null, awayScore: null },
   'ko-qf-3': { stage: 'qf', date: '2026-07-11T22:00', home: 'NOR', away: 'ENG', homeScore: null, awayScore: null },
   'ko-qf-4': { stage: 'qf', date: '2026-07-12T02:00', home: 'ARG', away: 'SUI', homeScore: null, awayScore: null },
@@ -178,7 +178,7 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'SWE': 'r32',
  'ESP': 'qf',
  'EGY': 'r16',
- 'FRA': 'qf',
+ 'FRA': 'sf',
  'CPV': 'r32',
  'ARG': 'qf',
  'NOR': 'qf',
