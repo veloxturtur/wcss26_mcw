@@ -135,7 +135,7 @@ const HARDCODED_MATCH_SCORES = {
 
   // Quarterfinals (July 9 – July 10, 2026)
   'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'MAR', away: 'FRA', homeScore: 0, awayScore: 2 },
-  'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'ESP', away: 'BEL', homeScore: null, awayScore: null },
+  'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'ESP', away: 'BEL', homeScore: 2, awayScore: 1 },
   'ko-qf-3': { stage: 'qf', date: '2026-07-11T22:00', home: 'NOR', away: 'ENG', homeScore: null, awayScore: null },
   'ko-qf-4': { stage: 'qf', date: '2026-07-12T02:00', home: 'ARG', away: 'SUI', homeScore: null, awayScore: null },
 
