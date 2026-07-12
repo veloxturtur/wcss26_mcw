@@ -136,8 +136,8 @@ const HARDCODED_MATCH_SCORES = {
   // Quarterfinals (July 9 – July 10, 2026)
   'ko-qf-1': { stage: 'qf', date: '2026-07-09T19:00', home: 'MAR', away: 'FRA', homeScore: 0, awayScore: 2 },
   'ko-qf-2': { stage: 'qf', date: '2026-07-09T22:00', home: 'ESP', away: 'BEL', homeScore: 2, awayScore: 1 },
-  'ko-qf-3': { stage: 'qf', date: '2026-07-11T22:00', home: 'NOR', away: 'ENG', homeScore: null, awayScore: null },
-  'ko-qf-4': { stage: 'qf', date: '2026-07-12T02:00', home: 'ARG', away: 'SUI', homeScore: null, awayScore: null },
+  'ko-qf-3': { stage: 'qf', date: '2026-07-11T22:00', home: 'NOR', away: 'ENG', homeScore: 1, awayScore: 2 },
+  'ko-qf-4': { stage: 'qf', date: '2026-07-12T02:00', home: 'ARG', away: 'SUI', homeScore: 3, awayScore: 1 },
 
   // Semifinals (July 14 – July 15, 2026)
   'ko-sf-1': { stage: 'sf', date: '2026-07-14T20:00', home: 'TBD', away: 'TBD', homeScore: null, awayScore: null },
@@ -180,11 +180,11 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'EGY': 'r16',
  'FRA': 'sf',
  'CPV': 'r32',
- 'ARG': 'qf',
+ 'ARG': 'sf',
  'NOR': 'qf',
  'POR': 'r16',
  'ALG': 'r32',
- 'ENG': 'qf',
+ 'ENG': 'sf',
  'COL': 'r16',
  'SEN': 'r32',
  'AUT': 'r32',
