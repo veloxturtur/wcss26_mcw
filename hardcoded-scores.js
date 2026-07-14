@@ -176,7 +176,7 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'CIV': 'r32',
  'BEL': 'qf',
  'SWE': 'r32',
- 'ESP': 'qf',
+ 'ESP': 'sf',
  'EGY': 'r16',
  'FRA': 'sf',
  'CPV': 'r32',
