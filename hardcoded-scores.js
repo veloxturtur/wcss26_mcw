@@ -140,7 +140,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-qf-4': { stage: 'qf', date: '2026-07-12T02:00', home: 'ARG', away: 'SUI', homeScore: 3, awayScore: 1 },
 
   // Semifinals (July 14 – July 15, 2026)
-  'ko-sf-1': { stage: 'sf', date: '2026-07-14T20:00', home: 'FRA', away: 'ESP', homeScore: null, awayScore: null },
+  'ko-sf-1': { stage: 'sf', date: '2026-07-14T20:00', home: 'FRA', away: 'ESP', homeScore: 0, awayScore: 2 },
   'ko-sf-2': { stage: 'sf', date: '2026-07-15T20:00', home: 'ENG', away: 'NOR', homeScore: null, awayScore: null },
 
   // Grand Final (July 19, 2026)
@@ -178,7 +178,7 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'SWE': 'r32',
  'ESP': 'sf',
  'EGY': 'r16',
- 'FRA': 'sf',
+ 'FRA': 'f',
  'CPV': 'r32',
  'ARG': 'sf',
  'NOR': 'qf',
