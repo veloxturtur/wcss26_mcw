@@ -141,10 +141,10 @@ const HARDCODED_MATCH_SCORES = {
 
   // Semifinals (July 14 – July 15, 2026)
   'ko-sf-1': { stage: 'sf', date: '2026-07-14T20:00', home: 'FRA', away: 'ESP', homeScore: 0, awayScore: 2 },
-  'ko-sf-2': { stage: 'sf', date: '2026-07-15T20:00', home: 'ENG', away: 'NOR', homeScore: null, awayScore: null },
+  'ko-sf-2': { stage: 'sf', date: '2026-07-15T20:00', home: 'ENG', away: 'ARG', homeScore: 2, awayScore: 1 },
 
   // Grand Final (July 19, 2026)
-  'ko-final': { stage: 'final', date: '2026-07-19T22:00', home: 'ESP', away: 'TBD', homeScore: null, awayScore: null }
+  'ko-final': { stage: 'final', date: '2026-07-19T22:00', home: 'ESP', away: 'ARG', homeScore: null, awayScore: null }
 };
 
 // Set this to true to use hardcoded scores, false to use API data
