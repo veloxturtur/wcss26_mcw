@@ -144,7 +144,7 @@ const HARDCODED_MATCH_SCORES = {
   'ko-sf-2': { stage: 'sf', date: '2026-07-15T20:00', home: 'ENG', away: 'ARG', homeScore: 2, awayScore: 1 },
 
   // Grand Final (July 19, 2026)
-  'ko-final': { stage: 'final', date: '2026-07-19T22:00', home: 'ESP', away: 'ARG', homeScore: null, awayScore: null }
+  'ko-final': { stage: 'final', date: '2026-07-19T22:00', home: 'ESP', away: 'ARG', homeScore: 1, awayScore: 0 }
 };
 
 // Set this to true to use hardcoded scores, false to use API data
@@ -176,11 +176,11 @@ const MANUAL_KNOCKOUT_OVERRIDES = {
  'CIV': 'r32',
  'BEL': 'qf',
  'SWE': 'r32',
- 'ESP': 'sf',
+ 'ESP': 'final',
  'EGY': 'r16',
  'FRA': 'sf',
  'CPV': 'r32',
- 'ARG': 'sf',
+ 'ARG': 'runnerUp',
  'NOR': 'qf',
  'POR': 'r16',
  'ALG': 'r32',
